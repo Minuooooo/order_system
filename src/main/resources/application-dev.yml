@@ -6,6 +6,10 @@ spring:
     username: order
     password: 1234
 
+  sql:
+    init:
+      mode: always  # 모든 데이터베이스의 sql script 를 동작시키는 'always', embedded(내장) 데이터베이스만 동작시키는 'embedded', 모든 데이터베이스를 동작시키지 않는 'never'
+
   jpa:
     open-in-view: false
     show-sql: true
@@ -18,6 +22,7 @@ spring:
           physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
+    defer-datasource-initialization: true  # jpa.hibernate.ddl-auto 실행 후 sql script 실행
 
 logging:
   level:
