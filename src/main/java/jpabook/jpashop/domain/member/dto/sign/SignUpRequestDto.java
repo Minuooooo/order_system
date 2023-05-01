@@ -41,14 +41,4 @@ public class SignUpRequestDto {
     @Pattern(regexp = "^\\d{5}$", message = "우편번호는 5자리이어야 합니다.") // 우편번호 형식
     @Schema(description = "우편번호", defaultValue = "11111")
     private String zipcode;
-
-//    @NotBlank(message = "휴대폰 번호를 입력해주세요.")
-//    @Pattern(regexp = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$", message = "휴대폰 번호는 하이픈(-)을 포함해야 합니다.") // 휴대폰 번호 형식
-//    @Schema(description = "휴대폰 번호", defaultValue = "010-1234-5678")
-//    private String phone;
-
-//    @NotBlank(message = "생년월일을 입력해주세요.")
-//    @Pattern(regexp = "^(19[0-9][0-9]|20\\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$", message = "생년월일은 하이픈(-)을 포함해야 합니다.") // 생년월일 형식
-//    @Schema(description = "생년월일", defaultValue = "2000-01-01")
-//    private String birth;
 }

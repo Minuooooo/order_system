@@ -91,6 +91,7 @@ public class AuthService {
                 .password(passwordEncoder.encode(req.getPassword()))
                 .name(req.getName())
                 .address(getAddress(req))
+                .profileImageUrl("basic")
                 .authority(Authority.ROLE_USER)
                 .build();
     }

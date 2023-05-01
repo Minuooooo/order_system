@@ -99,5 +99,29 @@ public class ExceptionAdvice {
         return failure(CONFLICT, e.getMessage() + "은 중복된 아이디 입니다.");
     }
 
+    // 404 응답
+    // Image 형식 지원하지 않음
+    @ExceptionHandler(UnsupportedImageFormatException.class)
+    @ResponseStatus(NOT_FOUND)
+    public Response unsupportedImageFormatException() {
+        return failure(NOT_FOUND, "이미지 형식을 지원하지 않습니다.");
+    }
+
+    // 404 응답
+    // 파일 업로드 실패
+    @ExceptionHandler(FileUploadFailureException.class)
+    @ResponseStatus(NOT_FOUND)
+    public Response fileUploadFailureException(FileUploadFailureException e) {
+        log.error("e = {}", e.getMessage());
+        return failure(NOT_FOUND, "이미지 업로드 실패");
+    }
+
+    // 404 응답
+    // 파일이 비어있음
+    @ExceptionHandler(EmptyFileException.class)
+    @ResponseStatus(NOT_FOUND)
+    public Response emptyFileException(EmptyFileException e) {
+        return failure(NOT_FOUND, "파일이 비어있습니다.");
+    }
 
 }
