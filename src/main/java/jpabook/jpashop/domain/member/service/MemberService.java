@@ -34,9 +34,9 @@ public class MemberService {
         memberRepository.delete(currentMember);
     }
 
-    public String changeProfileImageToNew(MultipartFile logoImage){
+    public String changeProfileImageToNew(MultipartFile profileImage){
         Member currentMember = getCurrentMember();
-        String uploadedProfileImageUrl = amazonS3Service.uploadFile((logoImage));
+        String uploadedProfileImageUrl = amazonS3Service.uploadFile((profileImage));
         deleteProfileImageIfExits(currentMember);
         return currentMember.changeProfileImageUrl(uploadedProfileImageUrl);
     }

@@ -124,4 +124,12 @@ public class ExceptionAdvice {
         return failure(NOT_FOUND, "파일이 비어있습니다.");
     }
 
+    // 400 응답
+    // 파일 확장자가 존재하지 않음
+    @ExceptionHandler(StringIndexOutOfBoundsException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public Response stringIndexOutOfBoundsException(StringIndexOutOfBoundsException e) {
+        return failure(BAD_REQUEST, "파일 확장자가 존재하지 않습니다.");
+    }
+
 }
