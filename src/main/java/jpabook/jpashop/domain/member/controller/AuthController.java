@@ -35,7 +35,7 @@ public class AuthController {
     @ResponseStatus(OK)
     @PostMapping("/validate-duplicate")
     public Response validateDuplicateUsername(@Valid @RequestBody ValidateSignUpRequestDto validateSignUpRequestDto) {
-        authService.duplicateValidate(validateSignUpRequestDto);
+        authService.validateDuplicate(validateSignUpRequestDto);
         return success(SUCCESS_TO_VALIDATE_DUPLICATE);
     }
 

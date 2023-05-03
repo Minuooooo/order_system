@@ -31,11 +31,12 @@ public class AuthService {
     private final RedisService redisService;
     private final JwtProvider jwtProvider;
 
-    public void duplicateValidate(ValidateSignUpRequestDto validateSignUpRequestDto) {
-        validateSignUpInfo(validateSignUpRequestDto);
+    public void validateDuplicate(ValidateSignUpRequestDto validateSignUpRequestDto) {
+        validateDuplicateByUsername(validateSignUpRequestDto);
     }
 
     public Member signUp(SignUpRequestDto req) {
+        validateSignUpInfo(req);
         Member member = createSignupFormOfUser(req);
         memberRepository.save(member);
         return member;
@@ -71,9 +72,15 @@ public class AuthService {
         return new TokenResponseDto(tokenDto.getAccessToken(), tokenDto.getRefreshToken());
     }
 
-    private void validateSignUpInfo(ValidateSignUpRequestDto validateSignUpRequestDto) {
+    private void validateDuplicateByUsername(ValidateSignUpRequestDto validateSignUpRequestDto) {
         if (memberRepository.existsByUsername(validateSignUpRequestDto.getUsername())) {
             throw new UsernameAlreadyExistsException(validateSignUpRequestDto.getUsername());
+        }
+    }
+
+    private void validateSignUpInfo(SignUpRequestDto signUpRequestDto) {
+        if (memberRepository.existsByUsername(signUpRequestDto.getUsername())) {
+            throw new UsernameAlreadyExistsException(signUpRequestDto.getUsername());
         }
     }
 
