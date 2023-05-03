@@ -51,6 +51,7 @@ public class MemberService {
     public void changeProfileImageToBasic() {
         Member currentMember = getCurrentMember();
         String deleteProfileImageUrl = currentMember.getProfileImageUrl();
+        // TODO S3에 이미지 저장 후, 확장자 추가 (EX. basic.JPEG)
         currentMember.changeProfileImageUrl("basic");
         amazonS3Service.deleteFile(deleteProfileImageUrl);
     }
@@ -64,6 +65,7 @@ public class MemberService {
     }
 
     private void deleteProfileImageIfExits(Member memberToCheck) {
+        // TODO S3에 이미지 저장 후, 확장자 추가 (EX. basic.JPEG)
         if (!memberToCheck.getProfileImageUrl().equals("basic")) {
             amazonS3Service.deleteFile(memberToCheck.getProfileImageUrl());
         }

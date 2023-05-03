@@ -98,6 +98,7 @@ public class AuthService {
                 .password(passwordEncoder.encode(req.getPassword()))
                 .name(req.getName())
                 .address(getAddress(req))
+                // TODO S3에 이미지 저장 후, 확장자 추가 (EX. basic.JPEG)
                 .profileImageUrl("basic")
                 .authority(Authority.ROLE_USER)
                 .build();
