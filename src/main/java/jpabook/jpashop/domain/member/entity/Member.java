@@ -37,4 +37,9 @@ public class Member extends EntityDateInfo {
         this.profileImageUrl = profileImageUrl;
         return this.profileImageUrl;
     }
+
+    public void editMember(String name, Address address) {
+        this.name = name;
+        this.address = address;
+    }
 }

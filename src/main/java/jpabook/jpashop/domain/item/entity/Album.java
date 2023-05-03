@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 @Builder
 @DiscriminatorValue("A")
 public class Album extends Item {
+
     private String artist;
 
     public Album(String name, int price, int stockQuantity, String artist) {

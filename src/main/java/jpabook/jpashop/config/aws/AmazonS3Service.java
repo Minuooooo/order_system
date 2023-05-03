@@ -5,7 +5,6 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.util.IOUtils;
 import jpabook.jpashop.exception.situation.EmptyFileException;
 import jpabook.jpashop.exception.situation.FileUploadFailureException;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Objects;
 import java.util.UUID;
@@ -24,7 +22,6 @@ import java.util.UUID;
 @Slf4j
 public class AmazonS3Service {
 
-    private static final String FILE_EXTENSION_SEPARATOR = ".";
     private final AmazonS3 amazonS3Client;
 
     @Value("${cloud.aws.s3.bucket}")
@@ -40,7 +37,7 @@ public class AmazonS3Service {
             amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, inputStream, objectMetadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
         } catch (Exception e) {
-            throw new FileUploadFailureException(e.getCause());
+            throw new FileUploadFailureException(e.getMessage());
         }
         return fileName;
     }

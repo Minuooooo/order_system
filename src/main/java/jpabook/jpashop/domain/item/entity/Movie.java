@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 @Builder
 @DiscriminatorValue("M")
 public class Movie extends Item {
+
     private String director;
 
     public Movie(String name, int price, int stockQuantity, String director) {

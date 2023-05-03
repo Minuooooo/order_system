@@ -2,6 +2,8 @@ package jpabook.jpashop.domain.member.service;
 
 import jpabook.jpashop.config.aws.AmazonS3Service;
 import jpabook.jpashop.config.redis.RedisService;
+import jpabook.jpashop.domain.member.dto.member.EditMemberInfoRequestDto;
+import jpabook.jpashop.domain.member.entity.Address;
 import jpabook.jpashop.domain.member.entity.Member;
 import jpabook.jpashop.domain.member.repository.MemberRepository;
 import jpabook.jpashop.exception.situation.MemberNotFoundException;
@@ -21,10 +23,15 @@ public class MemberService {
     private final RedisService redisService;
     private final AmazonS3Service amazonS3Service;
 
+    @Transactional(readOnly = true)
     public Member getCurrentMember() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return memberRepository.findByUsername(authentication.getName())
                 .orElseThrow(MemberNotFoundException::new);
+    }
+
+    public void editMemberInfo(EditMemberInfoRequestDto editMemberInfoRequestDto) {
+        getCurrentMember().editMember(editMemberInfoRequestDto.getName(), getAddress(editMemberInfoRequestDto));
     }
 
     public void deleteMember() {
@@ -46,6 +53,14 @@ public class MemberService {
         String deleteProfileImageUrl = currentMember.getProfileImageUrl();
         currentMember.changeProfileImageUrl("basic");
         amazonS3Service.deleteFile(deleteProfileImageUrl);
+    }
+
+    private Address getAddress(EditMemberInfoRequestDto editMemberInfoRequestDto) {
+        return Address.builder()
+                .city(editMemberInfoRequestDto.getCity())
+                .street(editMemberInfoRequestDto.getStreet())
+                .zipcode(editMemberInfoRequestDto.getZipcode())
+                .build();
     }
 
     private void deleteProfileImageIfExits(Member memberToCheck) {

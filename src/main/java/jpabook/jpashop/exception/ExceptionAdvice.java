@@ -129,6 +129,7 @@ public class ExceptionAdvice {
     @ExceptionHandler(StringIndexOutOfBoundsException.class)
     @ResponseStatus(BAD_REQUEST)
     public Response stringIndexOutOfBoundsException(StringIndexOutOfBoundsException e) {
+        log.info("error= {}", e.getMessage());
         return failure(BAD_REQUEST, "파일 확장자가 존재하지 않습니다.");
     }
 
