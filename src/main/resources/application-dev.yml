@@ -2,9 +2,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/order_system
-    username: order
-    password: 1234
+    url: jdbc:mysql://order-database.cufq4kyocjf6.ap-northeast-2.rds.amazonaws.com:3306/order_system
+    username: minu
+    password: ordersystem
 
   sql:
     init:
@@ -14,7 +14,7 @@ spring:
     open-in-view: false
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     properties:
       hibernate:
         format_sql: true
