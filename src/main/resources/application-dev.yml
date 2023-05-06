@@ -2,19 +2,26 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://order-database.cufq4kyocjf6.ap-northeast-2.rds.amazonaws.com:3306/order_system
-    username: minu
-    password: ordersystem
+    url: jdbc:mysql://localhost:3306/order_system  # 도커 컨테이너 이름 mysql
+    username: order
+    password: 1234
 
-  sql:
-    init:
-      mode: always  # 모든 데이터베이스의 sql script 를 동작시키는 'always', embedded(내장) 데이터베이스만 동작시키는 'embedded', 모든 데이터베이스를 동작시키지 않는 'never'
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  flyway:
+    locations: classpath:db/migration  # 마이그레이션 스크립트 위치
+    encoding: UTF-8  # 마이그레이션 스크립트 인코딩
+    check-location: false  # 마이그레이션 스크립트 실행 전 체크 여부
+    baseline-on-migration: true  # 스키마 초기화 여부
 
   jpa:
     open-in-view: false
     show-sql: true
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create-drop
     properties:
       hibernate:
         format_sql: true
@@ -22,7 +29,6 @@ spring:
           physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
-    defer-datasource-initialization: true  # jpa.hibernate.ddl-auto 실행 후 sql script 실행
 
 logging:
   level:

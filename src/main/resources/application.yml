@@ -1,17 +1,12 @@
 spring:
 
   profiles:
-    active: dev
+    active: dev  # application.yml 공통 부분 동작 후 application-dav.yml 동작
 
   servlet:
     multipart:
       max-file-size: 20MB
       max-request-size: 20MB
-
-  data:
-    redis:
-      host: localhost
-      port: 6379
 
 cloud:
   aws:
