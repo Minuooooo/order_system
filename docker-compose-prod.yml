@@ -1,12 +1,5 @@
 version: '3.8'
 services:
-
-  redis:
-    image: redis
-    hostname: ${REDIS_HOSTNAME}
-    ports:
-      - "${REDIS_LOCAL_PORT}:${REDIS_SERVER_PORT}"
-
   app:
     image: order_system-app
     build: .

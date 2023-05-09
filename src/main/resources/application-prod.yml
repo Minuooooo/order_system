@@ -8,8 +8,8 @@ spring:
 
   data:
     redis:
-      host: ${REDIS_HOSTNAME}  # 도커 컨테이너 이름
-      port: ${REDIS_SERVER_PORT}
+      host: redis  # 도커 컨테이너 이름
+      port: 6379
 
   flyway:
     locations: classpath:/db/migration  # 마이그레이션 스크립트 위치
