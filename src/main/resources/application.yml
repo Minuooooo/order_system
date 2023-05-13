@@ -8,6 +8,25 @@ spring:
       max-file-size: 20MB
       max-request-size: 20MB
 
+oauth:
+  google:
+    secret: ${google.client-secret}
+    client-id: ${google.client-id}
+    url:
+      auth: https://accounts.google.com
+      api: https://googleapis.com
+  kakao:
+    client-id: ${kakao.client-id}
+    url:
+      auth: https://kauth.kakao.com
+      api: https://kapi.kakao.com
+  naver:
+    secret: ${naver.client-secret}
+    client-id: ${naver.client-id}
+    url:
+      auth: https://nid.naver.com
+      api: https://openapi.naver.com
+
 cloud:
   aws:
     region:

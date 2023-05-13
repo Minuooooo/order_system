@@ -11,12 +11,6 @@ spring:
       host: localhost
       port: 6379
 
-  flyway:
-    locations: classpath:db/migration  # 마이그레이션 스크립트 위치
-    encoding: UTF-8  # 마이그레이션 스크립트 인코딩
-    check-location: false  # 마이그레이션 스크립트 실행 전 체크 여부
-    baseline-on-migration: true  # 스키마 초기화 여부
-
   jpa:
     open-in-view: false
     show-sql: true

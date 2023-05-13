@@ -47,7 +47,7 @@ public class AuthService {
         validatePassword(req, member);
 
         Authentication authentication = getUserAuthentication(req);
-        TokenDto tokenDto = jwtProvider.generateTokenDto(authentication);
+        TokenDto tokenDto = jwtProvider.generateByUsername(authentication);
         Duration duration = Duration.ofMillis(tokenDto.getRefreshTokenExpiresIn());
         redisService.setValues("RT: " + authentication.getName(), tokenDto.getRefreshToken(), duration);
         return new TokenResponseDto(tokenDto.getAccessToken(), tokenDto.getRefreshToken());
@@ -65,7 +65,7 @@ public class AuthService {
         validateExistsByRefreshToken(authentication);
         validateRefreshTokenOwner(authentication, tokenRequestDto);
 
-        TokenDto tokenDto = jwtProvider.generateTokenDto(authentication);
+        TokenDto tokenDto = jwtProvider.generateByUsername(authentication);
         Duration duration = Duration.ofMillis(tokenDto.getRefreshTokenExpiresIn());
         redisService.setValues("RT: " + authentication.getName(), tokenDto.getRefreshToken(), duration);
 

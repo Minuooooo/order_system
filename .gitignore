@@ -6,7 +6,6 @@ build/
 !**/src/test/**/build/
 *.properties
 *.env
-*.sql
 
 ### STS ###
 .apt_generated

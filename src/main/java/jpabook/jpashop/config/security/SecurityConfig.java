@@ -24,13 +24,16 @@ public class SecurityConfig {
     private final CorsFilter corsFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+
     private static final String[] AUTH_WHITELIST = {
             "/swagger-ui/**",
             "/api-docs/**",
             "/api",
+            "/api/auth/kakao",
+            "/api/auth/naver",
             "/api/auth/validate-duplicate",
             "/api/auth/sign-up",
-            "/api/auth/sign-in"
+            "/api/auth/sign-in",
     };
 
     @Bean
@@ -60,7 +63,9 @@ public class SecurityConfig {
                         .antMatchers(AUTH_WHITELIST)
                         .permitAll()
                         .anyRequest()
-                        .authenticated())
+                        .authenticated()
+                        .and()
+                )
                 .build();
     }
 }
