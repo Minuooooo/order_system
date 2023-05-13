@@ -4,7 +4,6 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jpabook.jpashop.domain.member.dto.sign.TokenDto;
-import jpabook.jpashop.domain.user.dto.TokenDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,7 +36,7 @@ public class JwtProvider {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public TokenDto generateByUsername(Authentication authentication) {
+    public TokenDto generateByEmail(Authentication authentication) {
         // 권한들 가져오기
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -69,14 +68,13 @@ public class JwtProvider {
                 .build();
     }
 
-    public TokenDto generateById(Long userId) {
+    public TokenDto generateByEmail(String email) {
 
         long now = (new Date()).getTime();
 
-        String subject = userId.toString();
         Date accessTokenExpiredIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
         String accessToken = Jwts.builder()
-                .setSubject(subject)
+                .setSubject(email)
                 .setExpiration(accessTokenExpiredIn)
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
@@ -93,10 +91,6 @@ public class JwtProvider {
                 .refreshToken(refreshToken)
                 .refreshTokenExpiresIn(refreshTokenExpiredIn.getTime())
                 .build();
-    }
-
-    public Long extractUserId(String accessToken) {
-        return Long.valueOf(extractSubject(accessToken));
     }
 
     public Authentication getAuthentication(String accessToken) {
@@ -135,7 +129,7 @@ public class JwtProvider {
         return false;
     }
 
-    private String extractSubject(String accessToken) {
+    public String extractSubjectByEmail(String accessToken) {
         Claims claims = parseClaims(accessToken);
         return claims.getSubject();
     }

@@ -22,24 +22,24 @@ public class OAuthService {
     public TokenResponseDto login(OAuthLoginParams params) {
 
         OAuthInfoResponse oAuthInfoResponse = requestOAuthInfoService.request(params);
-        TokenDto tokenDto = jwtProvider.generateById(findOrCreateUser(oAuthInfoResponse));
+        TokenDto tokenDto = jwtProvider.generateByEmail(findOrCreateUser(oAuthInfoResponse));
 
         return new TokenResponseDto(tokenDto.getAccessToken(), tokenDto.getRefreshToken());
     }
 
-    private Long findOrCreateUser(OAuthInfoResponse oAuthInfoResponse) {
+    private String findOrCreateUser(OAuthInfoResponse oAuthInfoResponse) {
         return userRepository.findByEmail(oAuthInfoResponse.getEmail())
-                .map(User::getId)
+                .map(User::getEmail)
                 .orElseGet(() -> newUser(oAuthInfoResponse));
     }
 
-    private Long newUser(OAuthInfoResponse oAuthInfoResponse) {
+    private String newUser(OAuthInfoResponse oAuthInfoResponse) {
         User user = User.builder()
                 .email(oAuthInfoResponse.getEmail())
                 .nickname(oAuthInfoResponse.getNickname())
                 .oAuthProvider(oAuthInfoResponse.getOAuthProvider())
                 .build();
 
-        return userRepository.save(user).getId();
+        return userRepository.save(user).getEmail();
     }
 }
