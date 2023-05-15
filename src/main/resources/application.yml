@@ -9,12 +9,12 @@ spring:
       max-request-size: 20MB
 
 oauth:
-  google:
-    secret: ${google.client-secret}
-    client-id: ${google.client-id}
-    url:
-      auth: https://accounts.google.com
-      api: https://googleapis.com
+#  google:
+#    secret: ${google.client-secret}
+#    client-id: ${google.client-id}
+#    url:
+#      auth: https://accounts.google.com
+#      api: https://googleapis.com
   kakao:
     client-id: ${kakao.client-id}
     url:

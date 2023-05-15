@@ -1,7 +1,7 @@
 package jpabook.jpashop.config.oauth.param;
 
 import jpabook.jpashop.config.oauth.common.OAuthLoginParams;
-import jpabook.jpashop.domain.user.entity.OAuthProvider;
+import jpabook.jpashop.config.oauth.common.OAuthProvider;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.util.LinkedMultiValueMap;

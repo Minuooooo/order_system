@@ -1,6 +1,10 @@
-package jpabook.jpashop.config.oauth.common;
+package jpabook.jpashop.config.oauth;
 
-import jpabook.jpashop.domain.user.entity.OAuthProvider;
+
+import jpabook.jpashop.config.oauth.common.OAuthApiClient;
+import jpabook.jpashop.config.oauth.common.OAuthInfoResponse;
+import jpabook.jpashop.config.oauth.common.OAuthLoginParams;
+import jpabook.jpashop.config.oauth.common.OAuthProvider;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package jpabook.jpashop.config.oauth.common;
+package jpabook.jpashop.config.oauth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

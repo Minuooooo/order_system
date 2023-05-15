@@ -36,7 +36,7 @@ public class JwtProvider {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public TokenDto generateByEmail(Authentication authentication) {
+    public TokenDto generateTokenDto(Authentication authentication) {
         // 권한들 가져오기
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -65,31 +65,6 @@ public class JwtProvider {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .refreshTokenExpiresIn(refreshTokenExpiresIn.getTime())
-                .build();
-    }
-
-    public TokenDto generateByEmail(String email) {
-
-        long now = (new Date()).getTime();
-
-        Date accessTokenExpiredIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
-        String accessToken = Jwts.builder()
-                .setSubject(email)
-                .setExpiration(accessTokenExpiredIn)
-                .signWith(key, SignatureAlgorithm.HS512)
-                .compact();
-
-        Date refreshTokenExpiredIn = new Date(now + REFRESH_TOKEN_EXPIRE_TIME);
-        String refreshToken = Jwts.builder()
-                .setExpiration(refreshTokenExpiredIn)
-                .signWith(key, SignatureAlgorithm.HS512)
-                .compact();
-
-        return TokenDto.builder()
-                .grantType(BEARER_TYPE)
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .refreshTokenExpiresIn(refreshTokenExpiredIn.getTime())
                 .build();
     }
 
@@ -129,7 +104,7 @@ public class JwtProvider {
         return false;
     }
 
-    public String extractSubjectByEmail(String accessToken) {
+    public String extractSubject(String accessToken) {
         Claims claims = parseClaims(accessToken);
         return claims.getSubject();
     }

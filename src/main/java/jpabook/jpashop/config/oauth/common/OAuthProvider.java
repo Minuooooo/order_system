@@ -1,4 +1,4 @@
-package jpabook.jpashop.domain.user.entity;
+package jpabook.jpashop.config.oauth.common;
 
 import lombok.Getter;
 

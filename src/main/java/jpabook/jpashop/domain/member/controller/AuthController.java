@@ -2,6 +2,8 @@ package jpabook.jpashop.domain.member.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jpabook.jpashop.config.oauth.param.KakaoLoginParams;
+import jpabook.jpashop.config.oauth.param.NaverLoginParams;
 import jpabook.jpashop.domain.member.dto.sign.LoginRequestDto;
 import jpabook.jpashop.domain.member.dto.sign.SignUpRequestDto;
 import jpabook.jpashop.domain.member.dto.sign.TokenRequestDto;
@@ -31,7 +33,21 @@ public class AuthController {
     private final AuthService authService;
     private final MemberService memberService;
 
-    @Operation(summary = "Validate duplicate API", description = "put your validate duplicate info")
+    @Operation(summary = "Find kakao email API", description = "please sign in kakao.")
+    @ResponseStatus(OK)
+    @GetMapping("/email/kakao")
+    public Response findKakaoEmailBySocial(@RequestBody KakaoLoginParams kakaoLoginParams) {
+        return success(SUCCESS_TO_FIND_EMAIL, authService.findEmailBySocial(kakaoLoginParams));
+    }
+
+    @Operation(summary = "Find naver email API", description = "please sign in naver.")
+    @ResponseStatus(OK)
+    @GetMapping("/email/naver")
+    public Response findNaverEmailBySocial(@RequestBody NaverLoginParams naverLoginParams) {
+        return success(SUCCESS_TO_FIND_EMAIL, authService.findEmailBySocial(naverLoginParams));
+    }
+
+    @Operation(summary = "Validate duplicate API", description = "put your validate duplicate info.")
     @ResponseStatus(OK)
     @PostMapping("/validate-duplicate")
     public Response validateDuplicateUsername(@Valid @RequestBody ValidateSignUpRequestDto validateSignUpRequestDto) {
@@ -47,14 +63,28 @@ public class AuthController {
         return success(SUCCESS_TO_SIGN_UP);
     }
 
-    @Operation(summary = "Sign in API", description = "put your sign in info.")
-    @PostMapping("/sign-in")
+    @Operation(summary = "General sign in API", description = "put your sign in info.")
+    @PostMapping("/sign-in/general")
     @ResponseStatus(OK)
-    public Response signIn(@Valid @RequestBody LoginRequestDto req) {
-        return success(SUCCESS_TO_SIGN_IN, authService.signIn(req));
+    public Response signInWithGeneral(@Valid @RequestBody LoginRequestDto req) {
+        return success(SUCCESS_TO_SIGN_IN, authService.signInWithGeneral(req));
     }
 
-    @Operation(summary = "Logout API", description = "this is logout")
+    @Operation(summary = "Kakao sign in API", description = "please sign in kakao.")
+    @PostMapping("/sign-in/kakao")
+    @ResponseStatus(OK)
+    public Response signInWithKakao(@RequestBody KakaoLoginParams kakaoLoginParams) {
+        return success(SUCCESS_TO_SIGN_IN, authService.signInWithSocial(kakaoLoginParams));
+    }
+
+    @Operation(summary = "Naver sign in API", description = "please sign in naver.")
+    @PostMapping("/sign-in/naver")
+    @ResponseStatus(OK)
+    public Response signInWithNaver(@RequestBody NaverLoginParams naverLoginParams) {
+        return success(SUCCESS_TO_SIGN_IN, authService.signInWithSocial(naverLoginParams));
+    }
+
+    @Operation(summary = "Logout API", description = "this is logout.")
     @PostMapping("/logout")
     @ResponseStatus(OK)
     public Response logout() {
