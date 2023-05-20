@@ -17,9 +17,9 @@ public class RequestOAuthInfoService {
 
     private final Map<OAuthProvider, OAuthApiClient> clients;
 
-    public RequestOAuthInfoService(List<OAuthApiClient> clients) {
+    public RequestOAuthInfoService(List<OAuthApiClient> clients) {  // clients: [KakaoApiClient, NaverApiClient]
         this.clients = clients.stream().collect(
-                Collectors.toUnmodifiableMap(OAuthApiClient::oAuthProvider, Function.identity())
+                Collectors.toUnmodifiableMap(OAuthApiClient::oAuthProvider, Function.identity())  // Function.identity: KakaoApiClient or NaverApiClient
         );
     }
 

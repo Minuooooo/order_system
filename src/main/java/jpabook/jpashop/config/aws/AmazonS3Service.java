@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
@@ -58,6 +59,9 @@ public class AmazonS3Service {
     }
 
     private String getFileExtension(String fileName) {
+        if(!StringUtils.hasText(fileName.substring(fileName.lastIndexOf(".")))) {
+            throw new StringIndexOutOfBoundsException();
+        }
         return fileName.substring(fileName.lastIndexOf("."));
     }
 }

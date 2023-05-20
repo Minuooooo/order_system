@@ -21,6 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
+    // AuthenticationManagerBuilder.getObject().authenticate() 실행할 때 호출
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return memberRepository.findByUsername(username)
@@ -33,7 +34,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         return User.builder()
                 .username(member.getUsername())
-                .password(passwordEncoder.encode(member.getUsername()))
+                .password(passwordEncoder.encode(member.getUsername()))  // authenticate(UsernamePasswordAuthenticationToken) 실행 시 parameter password, member encoded password 비교
                 .authorities(grantedAuthority)
                 .build();
     }

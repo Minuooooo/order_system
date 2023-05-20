@@ -21,7 +21,7 @@ public class OpenApiConfig {
                 .version("v1.0.0")
                 .description("for order application frontend");
 
-        return new OpenAPI()
+        return new OpenAPI()  // JWT Token 인증 방식을 사용하기 위해
                 .addSecurityItem(new SecurityRequirement()
                         .addList(securitySchemeName))
                 .components(new Components()

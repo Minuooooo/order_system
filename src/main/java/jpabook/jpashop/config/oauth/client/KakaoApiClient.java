@@ -21,6 +21,7 @@ import static org.springframework.http.MediaType.*;
 @RequiredArgsConstructor
 public class KakaoApiClient implements OAuthApiClient {
 
+    private final RestTemplate restTemplate;
     private static final String GRANT_TYPE = "authorization_code";
 
     @Value("${oauth.kakao.url.auth}")
@@ -30,8 +31,6 @@ public class KakaoApiClient implements OAuthApiClient {
     @Value("${oauth.kakao.client-id}")
     private String clientId;
 
-    private final RestTemplate restTemplate;
-
     @Override
     public OAuthProvider oAuthProvider() {
         return OAuthProvider.KAKAO;
@@ -40,18 +39,18 @@ public class KakaoApiClient implements OAuthApiClient {
     @Override
     public String requestAccessToken(OAuthLoginParams params) {
 
-        String url = authUrl + "/oauth/token";
+        String url = authUrl + "/oauth/token";  // Token Provider Url
 
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(APPLICATION_FORM_URLENCODED);
+        httpHeaders.setContentType(APPLICATION_FORM_URLENCODED);  // Query Parameter 형식으로 변환
 
-        MultiValueMap<String, String> body = params.makeBody();
+        MultiValueMap<String, String> body = params.makeBody();  // Token 요청에 필요한 Query Parameter
         body.add("grant_type", GRANT_TYPE);
         body.add("client_id", clientId);
 
         HttpEntity<?> request = new HttpEntity<>(body, httpHeaders);
 
-        KakaoTokens response = restTemplate.postForObject(url, request, KakaoTokens.class);
+        KakaoTokens response = restTemplate.postForObject(url, request, KakaoTokens.class);  // POST 요청
 
         assert response != null;
         return response.getAccessToken();
@@ -60,7 +59,7 @@ public class KakaoApiClient implements OAuthApiClient {
     @Override
     public OAuthInfoResponse requestOAuthInfo(String accessToken) {
 
-        String url = apiUrl + "/v2/user/me";
+        String url = apiUrl + "/v2/user/me";  // Info Provider Url
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(APPLICATION_FORM_URLENCODED);
