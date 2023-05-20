@@ -59,7 +59,7 @@ public class AuthController {
     @ResponseStatus(CREATED)
     @PostMapping("/sign-up")
     public Response signUp(@Valid @RequestBody SignUpRequestDto signUpRequestDto) {
-        Member member = authService.signUp(signUpRequestDto);
+        authService.signUp(signUpRequestDto);
         return success(SUCCESS_TO_SIGN_UP);
     }
 

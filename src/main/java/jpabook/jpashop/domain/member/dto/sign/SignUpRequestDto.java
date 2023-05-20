@@ -5,9 +5,16 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jpabook.jpashop.domain.member.entity.Address;
+import jpabook.jpashop.domain.member.entity.Authority;
+import jpabook.jpashop.domain.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
+
+import java.util.UUID;
 
 
 @Data
@@ -41,4 +48,31 @@ public class SignUpRequestDto {
     @Pattern(regexp = "^\\d{5}$", message = "우편번호는 5자리이어야 합니다.") // 우편번호 형식
     @Schema(description = "우편번호", defaultValue = "11111")
     private String zipcode;
+
+    public Address getAddress() {
+        return Address.builder()
+                .city(this.getCity())
+                .street(this.getStreet())
+                .zipcode(this.getZipcode())
+                .build();
+    }
+
+    public String validateExistsByPassword(PasswordEncoder passwordEncoder) {
+        if (!StringUtils.hasText(this.getPassword())) {
+            return passwordEncoder.encode(UUID.randomUUID().toString());
+        } else {
+            return passwordEncoder.encode(this.getPassword());
+        }
+    }
+
+    public Member toEntity(PasswordEncoder passwordEncoder) {
+        return Member.builder()
+                .username(this.getUsername())
+                .password(validateExistsByPassword(passwordEncoder))  // 일반, 소셜 회원가입을 비밀번호 유무로 구분
+                .name(this.getName())
+                .address(getAddress())
+                .profileImageUrl("basic.png")  // TODO S3에 이미지 저장 후, 확장자 추가 (EX. basic.JPEG)
+                .authority(Authority.ROLE_USER)
+                .build();
+    }
 }

@@ -14,6 +14,7 @@ import jpabook.jpashop.exception.situation.LoginFailureException;
 import jpabook.jpashop.exception.situation.UsernameAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -27,7 +28,6 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 @Slf4j
 public class AuthService {
 
@@ -46,35 +46,19 @@ public class AuthService {
         validateDuplicateByUsername(validateSignUpRequestDto);
     }
 
-    public Member signUp(SignUpRequestDto req) {
+    public void signUp(SignUpRequestDto req) {
         validateSignUpInfo(req);  // TODO 소셜 로그인 계정이 이미 있을 때 가입할 경우 휴대전화 인증을 통해 계정 존재 유무 알려주기
-        Member member = createSignupFormOfUser(req);
-        memberRepository.save(member);
-        return member;
+        memberRepository.save(req.toEntity(passwordEncoder));
     }
 
     public TokenResponseDto signInWithGeneral(LoginRequestDto req) {
-        Member member = validateExistsByUsername(req.getUsername());
-        validatePassword(req, member);
-
-        Authentication authentication = getUserAuthenticationByGeneral(req);
-        TokenDto tokenDto = jwtProvider.generateTokenDto(authentication);
-        Duration duration = Duration.ofMillis(tokenDto.getRefreshTokenExpiresIn());
-        redisService.setValues("RT: " + authentication.getName(), tokenDto.getRefreshToken(), duration);
+        TokenDto tokenDto = authorize(getUserAuthenticationByGeneral(req));
         return new TokenResponseDto(tokenDto.getAccessToken(), tokenDto.getRefreshToken());
     }
 
     public TokenResponseDto signInWithSocial(OAuthLoginParams oAuthLoginParams) {
-
         OAuthInfoResponse oAuthInfoResponse = requestOAuthInfoService.request(oAuthLoginParams);
-
-        validateExistsByUsername(oAuthInfoResponse.getEmail());
-
-        Authentication authentication = getUserAuthenticationBySocial(oAuthInfoResponse.getEmail());  // TODO 토큰에 넣을 정보 고민
-        TokenDto tokenDto = jwtProvider.generateTokenDto(authentication);
-        Duration duration = Duration.ofMillis(tokenDto.getRefreshTokenExpiresIn());
-        redisService.setValues("RT: " + authentication.getName(), tokenDto.getRefreshToken(), duration);
-
+        TokenDto tokenDto = authorize(getUserAuthenticationBySocial(oAuthInfoResponse.getEmail()));  // TODO 토큰에 넣을 정보 고민 현재 (email, email)
         return new TokenResponseDto(tokenDto.getAccessToken(), tokenDto.getRefreshToken());
     }
 
@@ -84,16 +68,9 @@ public class AuthService {
 
     public TokenResponseDto reissue(TokenRequestDto tokenRequestDto) {
         validateRefreshToken(tokenRequestDto);
-
         Authentication authentication = jwtProvider.getAuthentication(tokenRequestDto.getAccessToken());
-
-        validateExistsByRefreshToken(authentication);
         validateRefreshTokenOwner(authentication, tokenRequestDto);
-
-        TokenDto tokenDto = jwtProvider.generateTokenDto(authentication);
-        Duration duration = Duration.ofMillis(tokenDto.getRefreshTokenExpiresIn());
-        redisService.setValues("RT: " + authentication.getName(), tokenDto.getRefreshToken(), duration);
-
+        TokenDto tokenDto = authorize(authentication);
         return new TokenResponseDto(tokenDto.getAccessToken(), tokenDto.getRefreshToken());
     }
 
@@ -109,44 +86,10 @@ public class AuthService {
         }
     }
 
-    private Address getAddress(SignUpRequestDto req) {
-        return Address.builder()
-                .city(req.getCity())
-                .street(req.getStreet())
-                .zipcode(req.getZipcode())
-                .build();
-    }
-
-    private Member createSignupFormOfUser(SignUpRequestDto req) {
-
-        return Member.builder()
-                .username(req.getUsername())
-                .password(validateExistsByPassword(req))  // 일반, 소셜 회원가입을 비밀번호 유무로 구분
-                .name(req.getName())
-                .address(getAddress(req))
-                .profileImageUrl("basic.png")  // TODO S3에 이미지 저장 후, 확장자 추가 (EX. basic.JPEG)
-                .authority(Authority.ROLE_USER)
-                .build();
-    }
-
-    private String validateExistsByPassword(SignUpRequestDto req) {
-        if (!StringUtils.hasText(req.getPassword())) {
-            return passwordEncoder.encode(UUID.randomUUID().toString());
-        } else {
-            return passwordEncoder.encode(req.getPassword());
-        }
-    }
-
-    private Member validateExistsByUsername(String username) {
-        return memberRepository.findByUsername(username).orElseThrow(() -> {
-            throw new LoginFailureException();
-        });
-    }
-
-    private void validatePassword(LoginRequestDto loginRequestDto, Member member) {
-        if (!passwordEncoder.matches(loginRequestDto.getPassword(), member.getPassword())) {
-            throw new LoginFailureException();
-        }
+    private TokenDto authorize(Authentication authentication) {
+        TokenDto tokenDto = jwtProvider.generateTokenDto(authentication);
+        redisService.setValues("RT: " + authentication.getName(), tokenDto.getRefreshToken(), Duration.ofMillis(tokenDto.getRefreshTokenExpiresIn()));
+        return tokenDto;
     }
 
     private Authentication getUserAuthenticationByGeneral(LoginRequestDto req) {
@@ -155,20 +98,12 @@ public class AuthService {
     }
 
     private Authentication getUserAuthenticationBySocial(String email) {
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, email);
-        return authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        return authenticationManagerBuilder.getObject().authenticate(new UsernamePasswordAuthenticationToken(email, email));
     }
 
     private void validateRefreshToken(TokenRequestDto tokenRequestDto) {
         if (!jwtProvider.validateToken(tokenRequestDto.getRefreshToken())) {
             throw new RuntimeException("Refresh Token 이 유효하지 않습니다.");
-        }
-    }
-
-    private void validateExistsByRefreshToken(Authentication authentication) {
-        String refreshToken = redisService.getValues("RT: " + authentication.getName());
-        if (!StringUtils.hasText(refreshToken)) {
-            throw new RuntimeException("로그아웃된 사용자입니다.");
         }
     }
 
