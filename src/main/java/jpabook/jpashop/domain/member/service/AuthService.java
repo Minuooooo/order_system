@@ -1,30 +1,23 @@
 package jpabook.jpashop.domain.member.service;
 
 import jpabook.jpashop.config.jwt.JwtProvider;
+import jpabook.jpashop.config.oauth.RequestOAuthInfoService;
 import jpabook.jpashop.config.oauth.common.OAuthInfoResponse;
 import jpabook.jpashop.config.oauth.common.OAuthLoginParams;
-import jpabook.jpashop.config.oauth.RequestOAuthInfoService;
 import jpabook.jpashop.config.redis.RedisService;
 import jpabook.jpashop.domain.member.dto.sign.*;
-import jpabook.jpashop.domain.member.entity.Address;
-import jpabook.jpashop.domain.member.entity.Authority;
 import jpabook.jpashop.domain.member.entity.Member;
 import jpabook.jpashop.domain.member.repository.MemberRepository;
-import jpabook.jpashop.exception.situation.LoginFailureException;
 import jpabook.jpashop.exception.situation.UsernameAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
-import javax.transaction.Transactional;
 import java.time.Duration;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor

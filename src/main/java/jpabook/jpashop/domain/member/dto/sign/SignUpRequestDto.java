@@ -57,7 +57,7 @@ public class SignUpRequestDto {
                 .build();
     }
 
-    public String validateExistsByPassword(PasswordEncoder passwordEncoder) {
+    public String validateExistsByPassword(PasswordEncoder passwordEncoder) {  // 비밀번호가 있다면 일반, 없다면 소셜 회원가입
         if (!StringUtils.hasText(this.getPassword())) {
             return passwordEncoder.encode(UUID.randomUUID().toString());
         } else {

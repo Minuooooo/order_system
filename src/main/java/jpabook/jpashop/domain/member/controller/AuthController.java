@@ -4,10 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jpabook.jpashop.config.oauth.param.KakaoLoginParams;
 import jpabook.jpashop.config.oauth.param.NaverLoginParams;
-import jpabook.jpashop.domain.member.dto.sign.LoginRequestDto;
-import jpabook.jpashop.domain.member.dto.sign.SignUpRequestDto;
-import jpabook.jpashop.domain.member.dto.sign.TokenRequestDto;
-import jpabook.jpashop.domain.member.dto.sign.ValidateSignUpRequestDto;
+import jpabook.jpashop.domain.member.dto.sign.*;
 import jpabook.jpashop.domain.member.entity.Member;
 import jpabook.jpashop.domain.member.service.AuthService;
 import jpabook.jpashop.domain.member.service.MemberService;
@@ -35,21 +32,21 @@ public class AuthController {
 
     @Operation(summary = "Find kakao email API", description = "please sign in kakao.")
     @ResponseStatus(OK)
-    @GetMapping("/email/kakao")
+    @GetMapping("/sign-up/email/kakao")
     public Response findKakaoEmailBySocial(@RequestBody KakaoLoginParams kakaoLoginParams) {
         return success(SUCCESS_TO_FIND_EMAIL, authService.findEmailBySocial(kakaoLoginParams));
     }
 
     @Operation(summary = "Find naver email API", description = "please sign in naver.")
     @ResponseStatus(OK)
-    @GetMapping("/email/naver")
+    @GetMapping("/sign-up/email/naver")
     public Response findNaverEmailBySocial(@RequestBody NaverLoginParams naverLoginParams) {
         return success(SUCCESS_TO_FIND_EMAIL, authService.findEmailBySocial(naverLoginParams));
     }
 
     @Operation(summary = "Validate duplicate API", description = "put your validate duplicate info.")
     @ResponseStatus(OK)
-    @PostMapping("/validate-duplicate")
+    @PostMapping("/sign-up/duplicate")
     public Response validateDuplicateUsername(@Valid @RequestBody ValidateSignUpRequestDto validateSignUpRequestDto) {
         authService.validateDuplicate(validateSignUpRequestDto);
         return success(SUCCESS_TO_VALIDATE_DUPLICATE);
@@ -90,7 +87,7 @@ public class AuthController {
     public Response logout() {
         Member currentMember = memberService.getCurrentMember();
         authService.logout(currentMember);
-        return success(SUCCESS_TO_SIGN_OUT);
+        return success(SUCCESS_TO_LOGOUT);
     }
 
     @Operation(summary = "Reissue API", description = "put your token info which including access token and refresh token.")

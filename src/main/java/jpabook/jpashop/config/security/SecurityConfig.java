@@ -32,9 +32,7 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/api-docs/**",
             "/api",
-            "/api/auth/email/**",
-            "/api/auth/validate-duplicate",
-            "/api/auth/sign-up",
+            "/api/auth/sign-up/**",
             "/api/auth/sign-in/**"
     };
 
