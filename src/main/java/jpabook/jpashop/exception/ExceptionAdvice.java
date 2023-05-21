@@ -19,6 +19,8 @@ import static org.springframework.http.HttpStatus.*;
 @Slf4j
 public class ExceptionAdvice {
 
+    // TODO ExceptionAdvice 도메인 별로 분류 고려
+
     // 500 에러
     @ExceptionHandler(IllegalArgumentException.class) // 지정한 예외가 발생하면 해당 메소드 실행
     @ResponseStatus(INTERNAL_SERVER_ERROR) // 각 예외마다 상태 코드 지정
@@ -133,4 +135,11 @@ public class ExceptionAdvice {
         return failure(BAD_REQUEST, "파일 확장자가 존재하지 않습니다.");
     }
 
+    // 400 응답
+    // 기본 이미지로 변경할 수 없음
+    @ExceptionHandler(AlreadyBasicException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public Response alreadyBasicException() {
+        return failure(BAD_REQUEST, "기본 이미지로 변경할 수 없습니다.");
+    }
 }

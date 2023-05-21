@@ -18,6 +18,7 @@ import static org.springframework.http.HttpStatus.*;
 @Getter
 public class Response {
 
+    // TODO Response 객체는 custom code, result 구성 고려
     private Boolean isSuccess;
     private int code;
     private String message;

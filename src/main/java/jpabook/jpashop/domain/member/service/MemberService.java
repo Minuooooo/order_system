@@ -3,9 +3,11 @@ package jpabook.jpashop.domain.member.service;
 import jpabook.jpashop.config.aws.AmazonS3Service;
 import jpabook.jpashop.config.redis.RedisService;
 import jpabook.jpashop.domain.member.dto.member.EditMemberInfoRequestDto;
+import jpabook.jpashop.domain.member.dto.member.MemberInfoResponseDto;
 import jpabook.jpashop.domain.member.entity.Address;
 import jpabook.jpashop.domain.member.entity.Member;
 import jpabook.jpashop.domain.member.repository.MemberRepository;
+import jpabook.jpashop.exception.situation.AlreadyBasicException;
 import jpabook.jpashop.exception.situation.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -16,43 +18,50 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class MemberService {
 
     private final MemberRepository memberRepository;
     private final RedisService redisService;
     private final AmazonS3Service amazonS3Service;
 
-    @Transactional(readOnly = true)
     public Member getCurrentMember() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return memberRepository.findByUsername(authentication.getName())
+        return memberRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName())
                 .orElseThrow(MemberNotFoundException::new);
     }
 
+    public MemberInfoResponseDto getMemberInfo() {
+        return MemberInfoResponseDto.from(getCurrentMember());
+    }
+
+    @Transactional
     public void editMemberInfo(EditMemberInfoRequestDto editMemberInfoRequestDto) {
-        getCurrentMember().editMember(editMemberInfoRequestDto.getName(), getAddress(editMemberInfoRequestDto));
+        getCurrentMember().editMember(editMemberInfoRequestDto.getName(), getAddress(editMemberInfoRequestDto));  // @Transactional 없이는 getCurrentMember()는 준영속
     }
 
     public void deleteMember() {
         Member currentMember = getCurrentMember();
         redisService.deleteValues("RT: " + currentMember.getUsername());
-        deleteProfileImageIfExits(currentMember);
+        deleteProfileImageIfExists(currentMember);
         memberRepository.delete(currentMember);
     }
 
+    @Transactional
     public String changeProfileImageToNew(MultipartFile profileImage){
         Member currentMember = getCurrentMember();
-        String uploadedProfileImageUrl = amazonS3Service.uploadFile((profileImage));
-        deleteProfileImageIfExits(currentMember);
-        return currentMember.changeProfileImageUrl(uploadedProfileImageUrl);
+        deleteProfileImageIfExists(currentMember);
+        return currentMember.changeProfileImageUrl(amazonS3Service.uploadFile((profileImage)));
     }
 
+    @Transactional
     public void changeProfileImageToBasic() {
         Member currentMember = getCurrentMember();
         String deleteProfileImageUrl = currentMember.getProfileImageUrl();
-        // TODO S3에 이미지 저장 후, 확장자 추가 (EX. basic.JPEG)
-        currentMember.changeProfileImageUrl("basic");
+        if (deleteProfileImageUrl.equals("basic_profile.png")) {
+            throw new AlreadyBasicException();
+        }
+
+        // TODO S3에 이미지 저장 후, 확장자 추가 (EX. basic_profile.png)
+        currentMember.changeProfileImageUrl("basic_profile.png");
         amazonS3Service.deleteFile(deleteProfileImageUrl);
     }
 
@@ -64,9 +73,8 @@ public class MemberService {
                 .build();
     }
 
-    private void deleteProfileImageIfExits(Member memberToCheck) {
-        // TODO S3에 이미지 저장 후, 확장자 추가 (EX. basic.JPEG)
-        if (!memberToCheck.getProfileImageUrl().equals("basic")) {
+    private void deleteProfileImageIfExists(Member memberToCheck) {
+        if (!memberToCheck.getProfileImageUrl().equals("basic_profile.png")) {
             amazonS3Service.deleteFile(memberToCheck.getProfileImageUrl());
         }
     }

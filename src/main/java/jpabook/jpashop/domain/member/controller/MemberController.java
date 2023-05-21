@@ -27,9 +27,16 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    @Operation(summary = "Get member info API", description = "this is info what you want to see")
+    @ResponseStatus(OK)
+    @GetMapping()
+    public Response getMemberInfo() {
+        return success(SUCCESS_TO_GET_MEMBER, memberService.getMemberInfo());
+    }
+
     @Operation(summary = "Edit member API", description = "put profile info what you want to change")
     @ResponseStatus(OK)
-    @PatchMapping("")
+    @PatchMapping()
     public Response editMemberInfo(@Valid @RequestBody EditMemberInfoRequestDto editMemberInfoRequestDto) {
         memberService.editMemberInfo(editMemberInfoRequestDto);
         return success(SUCCESS_TO_EDIT_MEMBER);
@@ -37,7 +44,7 @@ public class MemberController {
 
     @Operation(summary = "Delete member API", description = "this is to delete member")
     @ResponseStatus(OK)
-    @DeleteMapping("")
+    @DeleteMapping()
     public Response deleteMember() {
         memberService.deleteMember();
         return success(SUCCESS_TO_DELETE_MEMBER);

@@ -71,7 +71,7 @@ public class SignUpRequestDto {
                 .password(validateExistsByPassword(passwordEncoder))  // 일반, 소셜 회원가입을 비밀번호 유무로 구분
                 .name(this.getName())
                 .address(getAddress())
-                .profileImageUrl("basic.png")  // TODO S3에 이미지 저장 후, 확장자 추가 (EX. basic.JPEG)
+                .profileImageUrl("basic_profile.png")  // TODO S3에 이미지 저장 후, 확장자 추가 (EX. basic_profile.png)
                 .authority(Authority.ROLE_USER)
                 .build();
     }
