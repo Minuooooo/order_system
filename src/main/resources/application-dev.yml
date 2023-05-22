@@ -11,6 +11,14 @@ spring:
       host: localhost
       port: 6379
 
+  flyway:
+    enabled: false  # 엔티티와 flyway 에서 생성하는 테이블이 같아 aal-auto: create-drop 으로 인해 데이터 삽입 불가능
+
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:sql/data.sql  # *.sql 경로
+
   jpa:
     open-in-view: false
     show-sql: true
@@ -23,6 +31,7 @@ spring:
           physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
+    defer-datasource-initialization: true  # Hibernate 의 초기 엔티티 생성 이후 *.sql 실행
 
 logging:
   level:
