@@ -1,5 +1,10 @@
 version: '3.8'
 services:
+  redis:
+    image: ${REDIS_IMAGE}
+    ports:
+      - "6379:6379"
+
   app:
     image: order_system-app
     build: .

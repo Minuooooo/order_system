@@ -8,7 +8,7 @@ spring:
 
   data:
     redis:
-      host: redis  # 도커 컨테이너 이름
+      host: ${REDIS_IMAGE}  # 도커 컨테이너 이름
       port: 6379
 
   flyway:
