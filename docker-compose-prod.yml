@@ -1,12 +1,13 @@
 version: '3.8'
 services:
   redis:
-    image: ${REDIS_IMAGE}
+#    hostname: TODO 컨테이너 이름도 노출하면 안되나?
+    image: ${REDIS_IMAGE}  # 이미지 이름 노출 x
     ports:
       - "6379:6379"
 
   app:
-    image: order_system-app
+    image: order_system-app  # 배포 시 이미지 이름 수정 필요
     build: .
     restart: always
     ports:

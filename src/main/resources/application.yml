@@ -1,5 +1,4 @@
 spring:
-
   profiles:
     active: dev  # application.yml 공통 부분 동작 후 application-dav.yml 동작
 
