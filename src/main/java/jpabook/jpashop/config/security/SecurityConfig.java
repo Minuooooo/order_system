@@ -28,7 +28,7 @@ public class SecurityConfig {
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
-    private static final String[] AUTH_WHITELIST = {
+    private static final String[] AUTH_WHITELIST = {  // 인증하지 않을 Url
             "/swagger-ui/**",
             "/api-docs/**",
             "/api",
@@ -54,8 +54,8 @@ public class SecurityConfig {
                 .cors().configurationSource(request -> {
                     var cors = new CorsConfiguration();
                     cors.setAllowedOrigins(List.of("http://localhost:3000"));  // 요청 받는 Url
-                    cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));
-                    cors.setAllowedHeaders(List.of("*"));
+                    cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));  // 요청 받는 HTTP Method
+                    cors.setAllowedHeaders(List.of("*"));  // 요청 Header
                     return cors;
                 })
 

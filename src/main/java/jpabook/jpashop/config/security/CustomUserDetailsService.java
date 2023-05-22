@@ -34,7 +34,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         return User.builder()
                 .username(member.getUsername())
-                .password(passwordEncoder.encode(member.getUsername()))  // authenticate(UsernamePasswordAuthenticationToken) 실행 시 parameter password, member encoded password 비교
+                .password(passwordEncoder.encode(member.getUsername()))  // authenticate(UsernamePasswordAuthenticationToken) 실행 시 token password, member encoded password 비교
                 .authorities(grantedAuthority)
                 .build();
     }
