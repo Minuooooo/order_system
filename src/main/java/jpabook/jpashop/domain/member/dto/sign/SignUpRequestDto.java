@@ -49,22 +49,6 @@ public class SignUpRequestDto {
     @Schema(description = "우편번호", defaultValue = "11111")
     private String zipcode;
 
-    public Address getAddress() {
-        return Address.builder()
-                .city(this.getCity())
-                .street(this.getStreet())
-                .zipcode(this.getZipcode())
-                .build();
-    }
-
-    public String validateExistsByPassword(PasswordEncoder passwordEncoder) {  // 비밀번호가 있다면 일반, 없다면 소셜 회원가입
-        if (!StringUtils.hasText(this.getPassword())) {
-            return passwordEncoder.encode(UUID.randomUUID().toString());
-        } else {
-            return passwordEncoder.encode(this.getPassword());
-        }
-    }
-
     public Member toEntity(PasswordEncoder passwordEncoder) {
         return Member.builder()
                 .username(this.getUsername())
@@ -73,6 +57,22 @@ public class SignUpRequestDto {
                 .address(getAddress())
                 .profileImageUrl("basic_profile.png")  // TODO S3에 이미지 저장 후, 확장자 추가 (EX. basic_profile.png)
                 .authority(Authority.ROLE_USER)
+                .build();
+    }
+
+    private String validateExistsByPassword(PasswordEncoder passwordEncoder) {  // 비밀번호가 있다면 일반, 없다면 소셜 회원가입
+        if (!StringUtils.hasText(this.getPassword())) {
+            return passwordEncoder.encode(UUID.randomUUID().toString());
+        } else {
+            return passwordEncoder.encode(this.getPassword());
+        }
+    }
+
+    private Address getAddress() {  // public 타입 시 스웨거 요청 바디에 노출
+        return Address.builder()
+                .city(this.getCity())
+                .street(this.getStreet())
+                .zipcode(this.getZipcode())
                 .build();
     }
 }

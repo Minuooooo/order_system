@@ -142,4 +142,12 @@ public class ExceptionAdvice {
     public Response alreadyBasicException() {
         return failure(BAD_REQUEST, "기본 이미지로 변경할 수 없습니다.");
     }
+
+    // 404 응답
+    // 요청한 물품을 찾을 수 없음
+    @ExceptionHandler(ItemNotFoundException.class)
+    @ResponseStatus(NOT_FOUND)
+    public Response itemNotFoundException() {
+        return failure(NOT_FOUND, "요청한 물품을 찾을 수 없습니다.");
+    }
 }
