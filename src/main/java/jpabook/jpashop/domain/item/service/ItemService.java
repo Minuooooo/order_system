@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -33,12 +34,15 @@ public class ItemService {
     private final ItemRepository itemRepository;
 
     public Page<SimpleItemInfoResponseDto> getSimpleItemInfosAdapter(String name, Pageable pageable) {  // 상속을 활용하여 Item category 별로 나누어 Page 반환
+
+        List<Item> items = itemRepository.findAll();
+
         if (nameOf(name) == BOOK) {
-            return getSimpleBookInfos(pageable);
+            return getSimpleBookInfos(items, pageable);
         } else if (nameOf(name) == ALBUM) {
-            return getSimpleAlbumInfos(pageable);
+            return getSimpleAlbumInfos(items, pageable);
         } else if (nameOf(name) == MOVIE){
-            return getSimpleMovieInfos(pageable);
+            return getSimpleMovieInfos(items, pageable);
         } else {
             throw new RuntimeException("카테고리가 존재하지 않습니다.");
         }
@@ -59,8 +63,8 @@ public class ItemService {
         }
     }
 
-    public Page<SimpleItemInfoResponseDto> getSimpleBookInfos(Pageable pageable) {
-        return new PageImpl<>(itemRepository.findAll().stream()
+    public Page<SimpleItemInfoResponseDto> getSimpleBookInfos(List<Item> items, Pageable pageable) {
+        return new PageImpl<>(items.stream()
                 .filter(item -> item instanceof Book)  // dtype: B & ClassCastException 방지
                 .map(item -> SimpleBookInfoResponseDto.from((Book) item))
                 .filter(Objects::nonNull)
@@ -69,8 +73,8 @@ public class ItemService {
                 itemRepository.findAll().size());
     }
 
-    public Page<SimpleItemInfoResponseDto> getSimpleAlbumInfos(Pageable pageable) {
-        return new PageImpl<>(itemRepository.findAll().stream()
+    public Page<SimpleItemInfoResponseDto> getSimpleAlbumInfos(List<Item> items, Pageable pageable) {
+        return new PageImpl<>(items.stream()
                 .filter(item -> item instanceof Album)  // dtype: A & ClassCastException 방지
                 .map(item -> SimpleAlbumInfoResponseDto.from((Album) item))
                 .filter(Objects::nonNull)
@@ -79,8 +83,8 @@ public class ItemService {
                 itemRepository.findAll().size());
     }
 
-    public Page<SimpleItemInfoResponseDto> getSimpleMovieInfos(Pageable pageable) {
-        return new PageImpl<>(itemRepository.findAll().stream()
+    public Page<SimpleItemInfoResponseDto> getSimpleMovieInfos(List<Item> items, Pageable pageable) {
+        return new PageImpl<>(items.stream()
                 .filter(item -> item instanceof Movie)  // dtype: M & ClassCastException 방지
                 .map(item -> SimpleMovieInfoResponseDto.from((Movie) item))
                 .filter(Objects::nonNull)
