@@ -44,20 +44,14 @@ public class SecurityConfig {
     @Bean
     protected SecurityFilterChain config(HttpSecurity http) throws Exception {
         return http
+                .cors()
+
+                .and()
                 .csrf().disable()
                 .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
-
-                .and()
-                .cors().configurationSource(request -> {
-                    var cors = new CorsConfiguration();
-                    cors.setAllowedOrigins(List.of("http://localhost:3000"));  // 요청 받는 Url
-                    cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));  // 요청 받는 HTTP Method
-                    cors.setAllowedHeaders(List.of("*"));  // 요청 Header
-                    return cors;
-                })
 
                 .and()
                 .apply(new JwtSecurityConfig(jwtProvider))

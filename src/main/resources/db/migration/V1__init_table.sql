@@ -22,7 +22,7 @@ CREATE TABLE `order` (
                          zipcode VARCHAR(255),
                          date DATETIME(6),
                          delivery_status VARCHAR(255),
-                         status VARCHAR(255),
+                         order_status VARCHAR(255),
                          member_id BIGINT,
                          PRIMARY KEY (order_id)
 ) engine=InnoDB;

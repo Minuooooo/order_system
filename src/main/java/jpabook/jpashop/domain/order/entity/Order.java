@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -37,9 +38,11 @@ public class Order extends EntityDateInfo {
 
     @Embedded
     private Address address;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime date; //주문시간
     @Enumerated(STRING)
-    private OrderStatus status; //주문상태 [ORDER, CANCEL]
+    private OrderStatus orderStatus; //주문상태 [ORDER, CANCEL]
     @Enumerated(STRING)
     private DeliveryStatus deliveryStatus; // 배송 상태 [READY, ING, COMP]
 }

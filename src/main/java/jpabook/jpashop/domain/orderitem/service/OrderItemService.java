@@ -2,7 +2,7 @@ package jpabook.jpashop.domain.orderitem.service;
 
 import jpabook.jpashop.domain.item.entity.Item;
 import jpabook.jpashop.domain.order.entity.Order;
-import jpabook.jpashop.domain.orderitem.dto.EditOrderItemRequestDto;
+import jpabook.jpashop.domain.orderitem.dto.EditOrderItemInfoRequestDto;
 import jpabook.jpashop.domain.orderitem.dto.GetOrderItemInfoResponseDto;
 import jpabook.jpashop.domain.orderitem.dto.PutItemRequestDto;
 import jpabook.jpashop.domain.orderitem.entity.OrderItem;
@@ -46,7 +46,7 @@ public class OrderItemService {
     }
 
     @Transactional
-    public void editOrderItem(EditOrderItemRequestDto editOrderItemRequestDto, Long orderItemId) {
+    public void editOrderItem(EditOrderItemInfoRequestDto editOrderItemRequestDto, Long orderItemId) {
         OrderItem foundOrderItem = getOrderItem(orderItemId);
         foundOrderItem.editOrderItem(editOrderItemRequestDto.getCount(), foundOrderItem.getItem());
     }
