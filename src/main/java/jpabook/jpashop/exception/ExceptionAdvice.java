@@ -150,4 +150,22 @@ public class ExceptionAdvice {
     public Response itemNotFoundException() {
         return failure(NOT_FOUND, "요청한 물품을 찾을 수 없습니다.");
     }
+
+    // 400 응답
+    // 요청한 수량이 상품의 재고를 초과함
+    @ExceptionHandler(QuantityExcessException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public Response quantityExcessException() {
+        return failure(BAD_REQUEST, "요청한 수량이 상품의 재고를 초과합니다.");
+    }
+
+    // 404 응답
+    // 요청한 주문 물품을 찾을 수 없음
+    @ExceptionHandler(OrderItemNotFoundException.class)
+    @ResponseStatus(NOT_FOUND)
+    public Response orderItemNotFoundException() {
+        return failure(NOT_FOUND, "요청한 주문 물품을 찾을 수 없습니다.");
+    }
+
+
 }

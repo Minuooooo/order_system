@@ -31,4 +31,9 @@ public class OrderItem extends EntityDateInfo {
 
     private int orderPrice; //주문 가격
     private int count; //주문 수량
+
+    public void editOrderItem(int count, Item item) {
+        this.count = count;
+        this.orderPrice = this.count * item.getPrice();
+    }
 }

@@ -19,11 +19,4 @@ public class EditOrderItemRequestDto {
     @Size(min = 1, message = "상품을 1개 이상 담아주세요.")
     @Schema(description = "상품 수량")
     private int count;
-
-    public OrderItem toEntity(Item item) {
-        return OrderItem.builder()
-                .count(this.count)
-                .orderPrice(this.count * item.getPrice())
-                .build();
-    }
 }

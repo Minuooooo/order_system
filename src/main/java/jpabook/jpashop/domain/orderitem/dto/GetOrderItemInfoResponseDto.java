@@ -15,12 +15,14 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class GetOrderItemInfoResponseDto {
 
+    private Long id;
     private String name;
     private int count;
     private int orderPrice;
 
     public static GetOrderItemInfoResponseDto from(OrderItem orderItem) {
         return GetOrderItemInfoResponseDto.builder()
+                .id(orderItem.getId())
                 .name(orderItem.getItem().getName())
                 .count(orderItem.getCount())
                 .orderPrice(orderItem.getOrderPrice())
