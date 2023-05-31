@@ -2,6 +2,7 @@ package jpabook.jpashop.domain.order.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jpabook.jpashop.domain.member.entity.Address;
+import jpabook.jpashop.domain.member.entity.Member;
 import jpabook.jpashop.domain.order.entity.DeliveryStatus;
 import jpabook.jpashop.domain.order.entity.Order;
 import jpabook.jpashop.domain.order.entity.OrderStatus;
@@ -32,20 +33,13 @@ public class OrderRequestDto {
     @Schema(description = "우편번호", defaultValue = "11111")
     private String zipcode;
 
-    public Order toEntity() {
+    public Order toEntity(Member customer) {
         return Order.builder()
-                .address(getAddress())
+                .customer(customer)
+                .address(Address.getAddress(this.city, this.street, this.zipcode))
                 .date(LocalDateTime.parse(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))))
                 .orderStatus(OrderStatus.ORDER)
                 .deliveryStatus(DeliveryStatus.READY)
-                .build();
-    }
-
-    private Address getAddress() {
-        return Address.builder()
-                .city(this.city)
-                .street(this.street)
-                .zipcode(this.zipcode)
                 .build();
     }
 }

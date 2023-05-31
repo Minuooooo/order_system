@@ -32,17 +32,20 @@ public class Order extends EntityDateInfo {
     private Long id;
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
-    private Member member;
+    private Member customer;
     @OneToMany(mappedBy = "order", cascade = ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @Embedded
     private Address address;
-
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime date; //주문시간
     @Enumerated(STRING)
     private OrderStatus orderStatus; //주문상태 [ORDER, CANCEL]
     @Enumerated(STRING)
     private DeliveryStatus deliveryStatus; // 배송 상태 [READY, ING, COMP]
+
+    public void editOrder(Address address) {
+        this.address = address;
+    }
 }

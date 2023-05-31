@@ -13,8 +13,15 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 @Builder
 public class Address {
-
     private String city;
     private String street;
     private String zipcode;
+
+    public static Address getAddress(String city, String street, String zipcode) {
+        return Address.builder()
+                .city(city)
+                .street(street)
+                .zipcode(zipcode)
+                .build();
+    }
 }

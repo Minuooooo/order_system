@@ -2,6 +2,7 @@ package jpabook.jpashop.domain.orderitem.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jpabook.jpashop.domain.item.entity.Item;
+import jpabook.jpashop.domain.order.entity.Order;
 import jpabook.jpashop.domain.orderitem.entity.OrderItem;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,8 +21,10 @@ public class PutItemRequestDto {
     @Schema(description = "상품 수량")
     private int count;
 
-    public OrderItem toEntity(Item item) {
+    public OrderItem toEntity(Order order, Item item) {
         return OrderItem.builder()
+                .order(order)
+                .item(item)
                 .count(this.count)
                 .orderPrice(this.count * item.getPrice())
                 .build();

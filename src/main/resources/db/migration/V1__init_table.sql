@@ -23,7 +23,7 @@ CREATE TABLE `order` (
                          date DATETIME(6),
                          delivery_status VARCHAR(255),
                          order_status VARCHAR(255),
-                         member_id BIGINT,
+                         member_id BIGINT NOT NULL,
                          PRIMARY KEY (order_id)
 ) engine=InnoDB;
 
@@ -33,8 +33,8 @@ CREATE TABLE order_item (
                             updated_at VARCHAR(255),
                             count INTEGER NOT NULL,
                             order_price INTEGER NOT NULL,
-                            item_id BIGINT,
-                            order_id BIGINT,
+                            item_id BIGINT NOT NULL,
+                            order_id BIGINT NOT NULL,
                             PRIMARY KEY (order_item_id)
 ) engine=InnoDB;
 

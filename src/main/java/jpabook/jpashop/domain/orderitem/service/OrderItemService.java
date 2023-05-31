@@ -28,9 +28,9 @@ public class OrderItemService {
 
     private final OrderItemRepository orderItemRepository;
 
-    public void putItem(PutItemRequestDto putItemRequestDto, Item item) {
+    public void putItem(PutItemRequestDto putItemRequestDto, Order order, Item item) {
         validateItemCount(putItemRequestDto, item.getStockQuantity());
-        putItemRequestDto.toEntity(item);
+        putItemRequestDto.toEntity(order, item);
     }
 
     public Page<GetOrderItemInfoResponseDto> getOrderItemInfos(Order order, Pageable pageable) {

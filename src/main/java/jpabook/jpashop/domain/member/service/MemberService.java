@@ -35,7 +35,12 @@ public class MemberService {
 
     @Transactional
     public void editMemberInfo(EditMemberInfoRequestDto editMemberInfoRequestDto) {
-        getCurrentMember().editMember(editMemberInfoRequestDto.getName(), getAddress(editMemberInfoRequestDto));  // @Transactional 없이는 getCurrentMember()는 준영속
+        getCurrentMember().editMember(editMemberInfoRequestDto.getName(),
+                Address.getAddress(editMemberInfoRequestDto.getCity(),
+                        editMemberInfoRequestDto.getStreet(),
+                        editMemberInfoRequestDto.getZipcode()
+                )
+        );  // @Transactional 없이는 getCurrentMember()는 준영속
     }
 
     public void deleteMember() {
@@ -63,14 +68,6 @@ public class MemberService {
         // TODO S3에 이미지 저장 후, 확장자 추가 (EX. basic_profile.png)
         currentMember.changeProfileImageUrl("basic_profile.png");
         amazonS3Service.deleteFile(deleteProfileImageUrl);
-    }
-
-    private Address getAddress(EditMemberInfoRequestDto editMemberInfoRequestDto) {
-        return Address.builder()
-                .city(editMemberInfoRequestDto.getCity())
-                .street(editMemberInfoRequestDto.getStreet())
-                .zipcode(editMemberInfoRequestDto.getZipcode())
-                .build();
     }
 
     private void deleteProfileImageIfExists(Member memberToCheck) {

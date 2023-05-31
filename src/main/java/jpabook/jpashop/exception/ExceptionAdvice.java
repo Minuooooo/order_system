@@ -97,7 +97,7 @@ public class ExceptionAdvice {
     // username 중복
     @ExceptionHandler(UsernameAlreadyExistsException.class)
     @ResponseStatus(CONFLICT)
-    public Response memberEmailAlreadyExistsException(UsernameAlreadyExistsException e) {
+    public Response usernameAlreadyExistsException(UsernameAlreadyExistsException e) {
         return failure(CONFLICT, e.getMessage() + "은 중복된 아이디 입니다.");
     }
 
@@ -122,7 +122,7 @@ public class ExceptionAdvice {
     // 파일이 비어있음
     @ExceptionHandler(EmptyFileException.class)
     @ResponseStatus(NOT_FOUND)
-    public Response emptyFileException(EmptyFileException e) {
+    public Response emptyFileException() {
         return failure(NOT_FOUND, "파일이 비어있습니다.");
     }
 
@@ -165,6 +165,22 @@ public class ExceptionAdvice {
     @ResponseStatus(NOT_FOUND)
     public Response orderItemNotFoundException() {
         return failure(NOT_FOUND, "요청한 주문 물품을 찾을 수 없습니다.");
+    }
+
+    // 404 응답
+    // 요청한 주문을 찾을 수 없음
+    @ExceptionHandler(OrderNotFoundException.class)
+    @ResponseStatus(NOT_FOUND)
+    public Response orderNotFoundException() {
+        return failure(NOT_FOUND, "요청한 주문을 찾을 수 없습니다.");
+    }
+
+    // 400 응답
+    // 주문 정보를 수정할 수 없음
+    @ExceptionHandler(CannotEditOrderInfoException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public Response cannotEditOrderInfoException() {
+        return failure(BAD_REQUEST, "주문 정보를 수정할 수 없습니다.");
     }
 
 
