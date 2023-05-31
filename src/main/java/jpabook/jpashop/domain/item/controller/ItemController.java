@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static jpabook.jpashop.domain.item.entity.Category.*;
 import static jpabook.jpashop.response.Response.success;
-import static jpabook.jpashop.response.SuccessMessage.SUCCESS_TO_GET_ITEM_INFO;
-import static jpabook.jpashop.response.SuccessMessage.SUCCESS_TO_GET_ITEM_INFOS;
+import static jpabook.jpashop.response.SuccessMessage.*;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
@@ -33,7 +32,7 @@ public class ItemController {
     @PageableAsQueryParam
     @GetMapping("/simple")
     public Response getSimpleItemInfos(String name, Pageable pageable) {
-        return success(SUCCESS_TO_GET_ITEM_INFOS, itemService.getSimpleItemInfosAdapter(name, pageable));
+        return success(SUCCESS_TO_GET_SIMPLE_ITEM_INFOS, itemService.getSimpleItemInfosAdapter(name, pageable));
     }
 
     @Operation(summary = "Get item info API", description = "put the item id what you want to see")

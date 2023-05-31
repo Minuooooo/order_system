@@ -23,8 +23,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static jpabook.jpashop.domain.item.entity.Category.*;
-import static jpabook.jpashop.response.Response.success;
-import static jpabook.jpashop.response.SuccessMessage.SUCCESS_TO_GET_ITEM_INFOS;
 
 @Service
 @RequiredArgsConstructor

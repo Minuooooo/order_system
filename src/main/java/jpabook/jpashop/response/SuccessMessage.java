@@ -15,6 +15,6 @@ public class SuccessMessage {
     public static final String SUCCESS_TO_EDIT_MEMBER = "회원 프로필 정보를 변경하는데 성공했습니다.";
     public static final String SUCCESS_TO_DELETE_MEMBER = "회원을 삭제하는데 성공했습니다.";
     public static final String SUCCESS_TO_CHANGE_MEMBER_PROFILE_IMAGE = "회원 프로필 이미지를 변경하는데 성공했습니다.";
-    public static final String SUCCESS_TO_GET_ITEM_INFOS = "물품 목록을 가져오는데 성공했습니다.";
+    public static final String SUCCESS_TO_GET_SIMPLE_ITEM_INFOS = "물품 목록을 가져오는데 성공했습니다.";
     public static final String SUCCESS_TO_GET_ITEM_INFO = "물품 정보를 조회하는데 성공했습니다.";
 }
