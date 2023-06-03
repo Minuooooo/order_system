@@ -30,16 +30,16 @@ public class OrderService {
         orderRepository.save(createOrderInfoRequestDto.toEntity(customer));
     }
 
-    public Page<GetOrderInfoResponseDto> getOrderInfos(Member customer, Pageable pageable) {
+    public Page<GetOrderInfoResponseDto> getOrderInfos(Pageable pageable, Member customer) {
 
-        List<Order> foundOrders = orderRepository.findOrdersByCustomer(customer);
+        Page<Order> foundOrders = orderRepository.findOrdersByCustomer(pageable, customer);
 
-        return new PageImpl<>(foundOrders.stream()
+        return new PageImpl<>(foundOrders.getContent().stream()
                 .map(GetOrderInfoResponseDto::from)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList()),
                 pageable,
-                foundOrders.size()
+                foundOrders.getTotalElements()
         );
     }
 
@@ -60,16 +60,12 @@ public class OrderService {
         }
     }
 
-    public void cancelOrder(Long orderId) {
-        orderRepository.delete(getOrder(orderId));
-    }
-
     @Transactional
     public void order(Long orderId) {
         getOrder(orderId).changeOrderStatusToComplete();
     }
 
-    public Order getOrder(Long orderId) {
+    private Order getOrder(Long orderId) {
         return orderRepository.findById(orderId).orElseThrow(OrderNotFoundException::new);
     }
 }

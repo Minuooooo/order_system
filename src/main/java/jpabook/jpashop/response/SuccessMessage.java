@@ -19,7 +19,6 @@ public class SuccessMessage {
     public static final String SUCCESS_TO_CREATE_ORDER_INFO = "주문에 필요한 정보를 생성하는데 성공했습니다.";
     public static final String SUCCESS_TO_GET_ORDER_INFOS = "주문에 필요한 정보를 가져오는데 성공했습니다.";
     public static final String SUCCESS_TO_EDIT_ORDER_INFO = "주문에 필요한 정보를 수정하는데 성공했습니다.";
-    public static final String SUCCESS_TO_CANCEL_ORDER = "주문을 취소하는데 성공했습니다.";
     public static final String SUCCESS_TO_ORDER_COMPLETELY = "주문하는데 성공했습니다.";
 
 }

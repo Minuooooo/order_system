@@ -28,7 +28,6 @@ import static org.springframework.http.HttpStatus.OK;
 public class OrderController {
 
     private final OrderService orderService;
-    private final OrderItemService orderItemService;
     private final MemberService memberService;
 
     @Operation(summary = "Create order info API", description = "put the order info what you want to create")
@@ -44,7 +43,7 @@ public class OrderController {
     @PageableAsQueryParam
     @GetMapping()
     public Response getOrderInfos(Pageable pageable) {
-        return success(SUCCESS_TO_GET_ORDER_INFOS, orderService.getOrderInfos(memberService.getCurrentMember(), pageable));
+        return success(SUCCESS_TO_GET_ORDER_INFOS, orderService.getOrderInfos(pageable, memberService.getCurrentMember()));
     }
 
     @Operation(summary = "Edit order info API", description = "put the order info and id what you want to edit")
@@ -53,14 +52,6 @@ public class OrderController {
     public Response editOrderInfo(@Valid @RequestBody EditOrderInfoRequestDto editOrderInfoRequestDto, Long orderId) {
         orderService.editOrderInfo(editOrderInfoRequestDto, orderId);
         return success(SUCCESS_TO_EDIT_ORDER_INFO);
-    }
-
-    @Operation(summary = "Delete order API", description = "put the order id what you want to delete")
-    @ResponseStatus(OK)
-    @DeleteMapping()
-    public Response cancelOrder(Long orderId) {
-        orderService.cancelOrder(orderId);
-        return success(SUCCESS_TO_CANCEL_ORDER);
     }
 
     @Operation(summary = "Order completely API", description = "put the order id what you want to order completely")

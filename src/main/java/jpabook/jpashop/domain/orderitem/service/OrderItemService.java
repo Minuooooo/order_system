@@ -33,16 +33,17 @@ public class OrderItemService {
         orderItemRepository.save(putItemRequestDto.toEntity(order, item));
     }
 
-    public Page<GetOrderItemInfoResponseDto> getOrderItemInfos(Order order, Pageable pageable) {
+    public Page<GetOrderItemInfoResponseDto> getOrderItemInfos(Pageable pageable, Order order) {
 
-        List<OrderItem> foundOrderItems = orderItemRepository.findOrderItemsByOrder(order);
+        Page<OrderItem> foundOrderItems = orderItemRepository.findOrderItemsByOrder(pageable, order);
 
-        return new PageImpl<>(foundOrderItems.stream()
+        return new PageImpl<>(foundOrderItems.getContent().stream()
                 .map(GetOrderItemInfoResponseDto::from)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList()),
                 pageable,
-                foundOrderItems.size());
+                foundOrderItems.getTotalElements()
+        );
     }
 
     @Transactional
