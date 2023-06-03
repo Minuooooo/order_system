@@ -9,10 +9,12 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
     @EntityGraph(attributePaths = {"item"})
     @NotNull
-    Page<OrderItem> findOrderItemsByOrder(Pageable pageable, Order order);
+    Page<OrderItem> findOrderItemsWithItemByOrder(Pageable pageable, Order order);
+    @EntityGraph(attributePaths = {"item"})
+    List<OrderItem> findOrderItemsWithItemByOrder(Order order);
+    List<OrderItem> findOrderItemsByOrder(Order order);
 }

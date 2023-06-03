@@ -16,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -61,11 +60,11 @@ public class OrderService {
     }
 
     @Transactional
-    public void order(Long orderId) {
-        getOrder(orderId).changeOrderStatusToComplete();
+    public void changeOrderStatusToComplete(Long orderId) {
+        getOrder(orderId).changeOrderStatus();
     }
 
-    private Order getOrder(Long orderId) {
+    public Order getOrder(Long orderId) {
         return orderRepository.findById(orderId).orElseThrow(OrderNotFoundException::new);
     }
 }

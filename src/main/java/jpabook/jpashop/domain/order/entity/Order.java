@@ -49,7 +49,7 @@ public class Order extends EntityDateInfo {
         this.address = address;
     }
 
-    public void changeOrderStatusToComplete() {
+    public void changeOrderStatus() {
         this.orderStatus = OrderStatus.COMPLETE;
     }
 }

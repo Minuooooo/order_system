@@ -14,11 +14,11 @@ import javax.validation.constraints.Pattern;
 public class EditOrderInfoRequestDto {
 
     @NotBlank(message = "시,도,군을 입력해주세요.")
-    @Schema(description = "시,도,군", defaultValue = "경기도")
+    @Schema(description = "시,도,군", defaultValue = "서울")
     private String city;
 
     @NotBlank(message = "도로명을 입력해주세요.")
-    @Schema(description = "도로명", defaultValue = "고양이 네로")
+    @Schema(description = "도로명", defaultValue = "김수로")
     private String street;
 
     @NotBlank(message = "우편번호를 입력해주세요.")

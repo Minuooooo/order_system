@@ -35,17 +35,17 @@ public class ItemService {
         );
     }
 
+    @Transactional
+    public void putItem(Long itemId, int count) {
+        getItem(itemId).put(count);
+    }
+
+    @Transactional
+    public void cancelItem(Long itemId, int count) {
+        getItem(itemId).cancel(count);
+    }
+
     public Item getItem(Long itemId) {
         return itemRepository.findById(itemId).orElseThrow(ItemNotFoundException::new);
-    }
-
-    @Transactional
-    public void putItem(Item item, int count) {
-        item.put(count);
-    }
-
-    @Transactional
-    public void cancelItem(Item item, int count) {
-        item.cancel(count);
     }
 }

@@ -8,7 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
@@ -16,8 +18,8 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class PutItemRequestDto {
 
-    @NotBlank(message = "상품 수량을 입력해주세요.")
-    @Size(min = 1, message = "상품을 1개 이상 담아주세요.")
+    @NotNull(message = "상품 수량을 입력해주세요.")  // Integer 타입에는 @NotBlank 적용 불가
+    @Min(value = 1, message = "수량은 1개 이상 입력해야 합니다.")
     @Schema(description = "상품 수량")
     private int count;
 

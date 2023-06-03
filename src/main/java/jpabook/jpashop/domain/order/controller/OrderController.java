@@ -29,6 +29,7 @@ public class OrderController {
 
     private final OrderService orderService;
     private final MemberService memberService;
+    private final OrderItemService orderItemService;
 
     @Operation(summary = "Create order info API", description = "put the order info what you want to create")
     @ResponseStatus(OK)
@@ -58,7 +59,8 @@ public class OrderController {
     @ResponseStatus(OK)
     @PatchMapping("/complete")
     public Response order(Long orderId) {
-        orderService.order(orderId);
+        orderItemService.putItemStockQuantity(orderService.getOrder(orderId));
+        orderService.changeOrderStatusToComplete(orderId);
         return success(SUCCESS_TO_ORDER_COMPLETELY);
     }
 }

@@ -1,4 +1,4 @@
-package jpabook.jpashop.domain.member.dto.sign;
+package jpabook.jpashop.domain.orderitem.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UsernameResponseDto {
-    private String email;
+public class OrderItemsTotalPriceResponseDto {
+    private int totalPrice;
 
-    public static UsernameResponseDto toDto(String email) {
-        return UsernameResponseDto.builder()
-                .email(email)
+    public static OrderItemsTotalPriceResponseDto from(int totalPrice) {
+        return OrderItemsTotalPriceResponseDto.builder()
+                .totalPrice(totalPrice)
                 .build();
     }
 }

@@ -1,5 +1,6 @@
 package jpabook.jpashop.domain.item.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jpabook.jpashop.domain.item.entity.Item;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ItemInfoResponseDto {
     private Long id;
     private String name;

@@ -1,5 +1,6 @@
 package jpabook.jpashop.domain.member.dto.member;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jpabook.jpashop.domain.member.entity.Address;
 import jpabook.jpashop.domain.member.entity.Member;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class MemberInfoResponseDto {
 
     private String username;
