@@ -39,17 +39,12 @@ CREATE TABLE order_item (
 ) engine=InnoDB;
 
 CREATE TABLE item (
-                      dtype VARCHAR(31) NOT NULL,
                       item_id BIGINT NOT NULL AUTO_INCREMENT,
                       created_at VARCHAR(255),
                       updated_at VARCHAR(255),
                       name VARCHAR(255),
                       price INTEGER NOT NULL,
                       stock_quantity INTEGER NOT NULL,
-                      artist VARCHAR(255),
-                      author VARCHAR(255),
-                      isbn VARCHAR(255),
-                      director VARCHAR(255),
                       PRIMARY KEY (item_id)
 ) engine=InnoDB;
 
