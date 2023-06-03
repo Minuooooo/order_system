@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import static jpabook.jpashop.domain.item.entity.Category.*;
 import static jpabook.jpashop.response.Response.success;
 import static jpabook.jpashop.response.SuccessMessage.*;
 import static org.springframework.http.HttpStatus.OK;
@@ -27,18 +26,11 @@ public class ItemController {
 
     private final ItemService itemService;
 
-    @Operation(summary = "Get item simple infos API", description = "put the page info what you want to see")
-    @ResponseStatus(OK)
-    @PageableAsQueryParam
-    @GetMapping("/simple")
-    public Response getSimpleItemInfos(String name, Pageable pageable) {
-        return success(SUCCESS_TO_GET_SIMPLE_ITEM_INFOS, itemService.getSimpleItemInfosAdapter(name, pageable));
-    }
-
     @Operation(summary = "Get item info API", description = "put the item id what you want to see")
     @ResponseStatus(OK)
+    @PageableAsQueryParam
     @GetMapping()
-    public Response getSimpleItemInfos(String name, Long itemId) {
-        return success(SUCCESS_TO_GET_ITEM_INFO, itemService.getItemInfoAdapter(name, itemId));
+    public Response getSimpleItemInfos(Pageable pageable) {
+        return success(SUCCESS_TO_GET_ITEM_INFO, itemService.getItemInfos(pageable));
     }
 }

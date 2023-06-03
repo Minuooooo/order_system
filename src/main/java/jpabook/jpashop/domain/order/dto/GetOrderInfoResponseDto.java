@@ -3,7 +3,6 @@ package jpabook.jpashop.domain.order.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jpabook.jpashop.domain.member.entity.Address;
 import jpabook.jpashop.domain.order.entity.Order;
-import jpabook.jpashop.domain.orderitem.dto.GetOrderItemInfoResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class GetOrderInfosResponseDto {
+public class GetOrderInfoResponseDto {
 
     private Long id;
     private Address address;
@@ -22,8 +21,8 @@ public class GetOrderInfosResponseDto {
     private String orderStatus;
     private String deliveryStatus;
 
-    public static GetOrderInfosResponseDto from(Order order) {
-        return GetOrderInfosResponseDto.builder()
+    public static GetOrderInfoResponseDto from(Order order) {
+        return GetOrderInfoResponseDto.builder()
                 .id(order.getId())
                 .address(order.getAddress())
                 .date(order.getDate().toString())

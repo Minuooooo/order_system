@@ -48,4 +48,8 @@ public class Order extends EntityDateInfo {
     public void editOrder(Address address) {
         this.address = address;
     }
+
+    public void changeOrderStatusToComplete() {
+        this.orderStatus = OrderStatus.COMPLETE;
+    }
 }

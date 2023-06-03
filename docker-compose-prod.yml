@@ -7,7 +7,7 @@ services:
       - "6379:6379"
 
   app:
-    image: order_system-app  # 배포 시 이미지 이름 수정 필요
+    image: ${APP_IMAGE}  # 배포 시 이미지 이름 수정 필요
     build: .
     restart: always
     ports:

@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderRequestDto {
+public class CreateOrderInfoRequestDto {
 
     @NotBlank(message = "시,도,군을 입력해주세요.")
     @Schema(description = "시,도,군", defaultValue = "경기도")
@@ -34,11 +34,14 @@ public class OrderRequestDto {
     private String zipcode;
 
     public Order toEntity(Member customer) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
         return Order.builder()
                 .customer(customer)
                 .address(Address.getAddress(this.city, this.street, this.zipcode))
-                .date(LocalDateTime.parse(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))))
-                .orderStatus(OrderStatus.ORDER)
+                .date(LocalDateTime.parse(LocalDateTime.now().format(formatter), formatter))
+                .orderStatus(OrderStatus.WAIT)
                 .deliveryStatus(DeliveryStatus.READY)
                 .build();
     }

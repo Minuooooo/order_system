@@ -8,7 +8,7 @@ import jpabook.jpashop.domain.orderitem.dto.PutItemRequestDto;
 import jpabook.jpashop.domain.orderitem.entity.OrderItem;
 import jpabook.jpashop.domain.orderitem.repository.OrderItemRepository;
 import jpabook.jpashop.exception.situation.OrderItemNotFoundException;
-import jpabook.jpashop.exception.situation.QuantityExcessException;
+import jpabook.jpashop.exception.situation.StockQuantityExcessException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -29,8 +29,8 @@ public class OrderItemService {
     private final OrderItemRepository orderItemRepository;
 
     public void putItem(PutItemRequestDto putItemRequestDto, Order order, Item item) {
-        validateItemCount(putItemRequestDto, item.getStockQuantity());
-        putItemRequestDto.toEntity(order, item);
+        validateItemCount(putItemRequestDto.getCount(), item.getStockQuantity());
+        orderItemRepository.save(putItemRequestDto.toEntity(order, item));
     }
 
     public Page<GetOrderItemInfoResponseDto> getOrderItemInfos(Order order, Pageable pageable) {
@@ -55,9 +55,9 @@ public class OrderItemService {
         orderItemRepository.delete(getOrderItem(orderItemId));
     }
 
-    private void validateItemCount(PutItemRequestDto putItemRequestDto, int stockQuantity) {
-        if (putItemRequestDto.getCount() > stockQuantity) {
-            throw new QuantityExcessException();
+    private void validateItemCount(int count, int stockQuantity) {
+        if (count > stockQuantity) {
+            throw new StockQuantityExcessException();
         }
     }
 

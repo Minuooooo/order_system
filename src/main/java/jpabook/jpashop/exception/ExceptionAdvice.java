@@ -153,9 +153,9 @@ public class ExceptionAdvice {
 
     // 400 응답
     // 요청한 수량이 상품의 재고를 초과함
-    @ExceptionHandler(QuantityExcessException.class)
+    @ExceptionHandler(StockQuantityExcessException.class)
     @ResponseStatus(BAD_REQUEST)
-    public Response quantityExcessException() {
+    public Response stockQuantityExcessException() {
         return failure(BAD_REQUEST, "요청한 수량이 상품의 재고를 초과합니다.");
     }
 

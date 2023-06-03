@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,9 +15,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn  // Default: dtype
-public abstract class Item extends EntityDateInfo {  // 물품 카테고리를 도서, 음반, 영화 분류
+@Builder
+public class Item extends EntityDateInfo {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id")
@@ -26,15 +24,15 @@ public abstract class Item extends EntityDateInfo {  // 물품 카테고리를 �
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    @Enumerated(EnumType.STRING)
-    private Category category;
     private String name;
     private int price;
     private int stockQuantity;
 
-    public Item(String name, int price, int stockQuantity) {
-        this.name = name;
-        this.price = price;
-        this.stockQuantity = stockQuantity;
+    public void put(int count) {
+        this.stockQuantity -= count;
+    }
+
+    public void cancel(int count) {
+        this.stockQuantity += count;
     }
 }

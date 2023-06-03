@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum OrderStatus {
-    ORDER("주문완료"),
-    CANCEL("주문취소");
+    WAIT("주문대기"),
+    COMPLETE("주문완료");
 
     private final String name;
 

@@ -3,8 +3,8 @@ package jpabook.jpashop.domain.order.service;
 import jpabook.jpashop.domain.member.entity.Address;
 import jpabook.jpashop.domain.member.entity.Member;
 import jpabook.jpashop.domain.order.dto.EditOrderInfoRequestDto;
-import jpabook.jpashop.domain.order.dto.GetOrderInfosResponseDto;
-import jpabook.jpashop.domain.order.dto.OrderRequestDto;
+import jpabook.jpashop.domain.order.dto.GetOrderInfoResponseDto;
+import jpabook.jpashop.domain.order.dto.CreateOrderInfoRequestDto;
 import jpabook.jpashop.domain.order.entity.Order;
 import jpabook.jpashop.domain.order.repository.OrderRepository;
 import jpabook.jpashop.exception.situation.CannotEditOrderInfoException;
@@ -26,16 +26,16 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
 
-    public void order(OrderRequestDto orderRequestDto, Member customer) {
-        orderRepository.save(orderRequestDto.toEntity(customer));
+    public void createOrderInfo(CreateOrderInfoRequestDto createOrderInfoRequestDto, Member customer) {
+        orderRepository.save(createOrderInfoRequestDto.toEntity(customer));
     }
 
-    public Page<GetOrderInfosResponseDto> getOrderInfos(Member customer, Pageable pageable) {
+    public Page<GetOrderInfoResponseDto> getOrderInfos(Member customer, Pageable pageable) {
 
         List<Order> foundOrders = orderRepository.findOrdersByCustomer(customer);
 
         return new PageImpl<>(foundOrders.stream()
-                .map(GetOrderInfosResponseDto::from)
+                .map(GetOrderInfoResponseDto::from)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList()),
                 pageable,
@@ -60,8 +60,13 @@ public class OrderService {
         }
     }
 
-    public void deleteOrder(Long orderId) {
+    public void cancelOrder(Long orderId) {
         orderRepository.delete(getOrder(orderId));
+    }
+
+    @Transactional
+    public void order(Long orderId) {
+        getOrder(orderId).changeOrderStatusToComplete();
     }
 
     public Order getOrder(Long orderId) {
