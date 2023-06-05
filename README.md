@@ -14,8 +14,10 @@
 - Validation
 - Swagger
 - Redis
+- AWS S3
 - Docker, Docker-compose
 - Flyway
+- JUnit5 Test
 
 ### Git Convention
 - feat: 기능 추가
