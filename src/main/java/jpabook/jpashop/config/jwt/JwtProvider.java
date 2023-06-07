@@ -37,32 +37,14 @@ public class JwtProvider {
     }
 
     public TokenDto generateTokenDto(Authentication authentication) {
-        // 권한들 가져오기
-        String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
 
         long now = (new Date()).getTime();
-
-        // Access Token 생성
-        String accessToken = Jwts.builder()
-                .setSubject(authentication.getName())       // payload "sub": "name"
-                .claim(AUTHORITIES_KEY, authorities)        // payload "auth": "ROLE_USER"
-                .setExpiration(new Date(now + ACCESS_TOKEN_EXPIRE_TIME))        // payload "exp": 1516239022 (예시)
-                .signWith(key, SignatureAlgorithm.HS512)    // header "alg": "HS512"
-                .compact();
-
-        // Refresh Token 생성
         Date refreshTokenExpiresIn = new Date(now + REFRESH_TOKEN_EXPIRE_TIME);
-        String refreshToken = Jwts.builder()
-                .setExpiration(refreshTokenExpiresIn)
-                .signWith(key, SignatureAlgorithm.HS512)
-                .compact();
 
         return TokenDto.builder()
                 .grantType(BEARER_TYPE)
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
+                .accessToken(generateAccessToken(authentication, now))
+                .refreshToken(generateRefreshToken(refreshTokenExpiresIn))
                 .refreshTokenExpiresIn(refreshTokenExpiresIn.getTime())
                 .build();
     }
@@ -106,6 +88,29 @@ public class JwtProvider {
     public String extractSubject(String accessToken) {
         Claims claims = parseClaims(accessToken);
         return claims.getSubject();
+    }
+
+    public String generateAccessToken(Authentication authentication, Long now) {
+        // 권한들 가져오기
+        String authorities = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
+
+        // Access Token 생성
+        return Jwts.builder()
+                .setSubject(authentication.getName())                           // payload "sub": "name"
+                .claim(AUTHORITIES_KEY, authorities)                            // payload "auth": "ROLE_USER"
+                .setExpiration(new Date(now + ACCESS_TOKEN_EXPIRE_TIME))        // payload "exp": 1516239022 (예시)
+                .signWith(key, SignatureAlgorithm.HS512)                        // header "alg": "HS512"
+                .compact();
+    }
+
+    public String generateRefreshToken(Date refreshTokenExpiresIn) {
+        // Refresh Token 생성
+        return Jwts.builder()
+                .setExpiration(refreshTokenExpiresIn)
+                .signWith(key, SignatureAlgorithm.HS512)
+                .compact();
     }
 
     private Claims parseClaims(String accessToken) {

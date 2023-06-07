@@ -2,7 +2,6 @@ package jpabook.jpashop.domain.member.service;
 
 import jpabook.jpashop.config.jwt.JwtProvider;
 import jpabook.jpashop.config.oauth.RequestOAuthInfoService;
-import jpabook.jpashop.config.oauth.common.OAuthInfoResponse;
 import jpabook.jpashop.config.oauth.common.OAuthLoginParams;
 import jpabook.jpashop.config.redis.RedisService;
 import jpabook.jpashop.domain.member.dto.sign.*;
@@ -16,8 +15,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.Duration;
+import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -45,14 +46,11 @@ public class AuthService {
     }
 
     public TokenResponseDto signInWithGeneral(LoginRequestDto req) {
-        TokenDto tokenDto = authorize(getUserAuthenticationByGeneral(req));
-        return new TokenResponseDto(tokenDto.getAccessToken(), tokenDto.getRefreshToken());
+        return authorize(req.getUsername());
     }
 
     public TokenResponseDto signInWithSocial(OAuthLoginParams oAuthLoginParams) {
-        OAuthInfoResponse oAuthInfoResponse = requestOAuthInfoService.request(oAuthLoginParams);
-        TokenDto tokenDto = authorize(getUserAuthenticationBySocial(oAuthInfoResponse.getEmail()));  // TODO 토큰에 넣을 정보 고민 현재 (email, email)
-        return new TokenResponseDto(tokenDto.getAccessToken(), tokenDto.getRefreshToken());
+        return authorize(requestOAuthInfoService.request(oAuthLoginParams).getEmail());
     }
 
     public void logout(Member member) {
@@ -63,7 +61,7 @@ public class AuthService {
         validateRefreshToken(tokenRequestDto);
         Authentication authentication = jwtProvider.getAuthentication(tokenRequestDto.getAccessToken());
         validateRefreshTokenOwner(authentication, tokenRequestDto);
-        TokenDto tokenDto = authorize(authentication);
+        TokenDto tokenDto = getReadyForAuthorize(authentication);
         return new TokenResponseDto(tokenDto.getAccessToken(), tokenDto.getRefreshToken());
     }
 
@@ -79,19 +77,30 @@ public class AuthService {
         }
     }
 
-    private TokenDto authorize(Authentication authentication) {
+    private TokenDto getReadyForAuthorize(Authentication authentication) {
         TokenDto tokenDto = jwtProvider.generateTokenDto(authentication);
         redisService.setValues("RT: " + authentication.getName(), tokenDto.getRefreshToken(), Duration.ofMillis(tokenDto.getRefreshTokenExpiresIn()));
         return tokenDto;
     }
 
-    private Authentication getUserAuthenticationByGeneral(LoginRequestDto req) {
-        UsernamePasswordAuthenticationToken authenticationToken = req.toAuthentication();
-        return authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-    }
+//    private Authentication getUserAuthenticationByGeneral(LoginRequestDto req) {
+//        return authenticationManagerBuilder.getObject().authenticate(req.toAuthentication());
+//    }
 
     private Authentication getUserAuthenticationBySocial(String email) {
         return authenticationManagerBuilder.getObject().authenticate(new UsernamePasswordAuthenticationToken(email, email));
+    }
+
+    private TokenResponseDto authorize(String email) {
+        String foundRefreshToken = redisService.getValues("RT: " + email);
+        Authentication authentication = getUserAuthenticationBySocial(email);    // TODO 토큰에 넣을 정보 고민 현재 (email, email)
+        long now = (new Date()).getTime();
+
+        if (!StringUtils.hasText(foundRefreshToken)) {
+            TokenDto tokenDto = getReadyForAuthorize(authentication);
+            return new TokenResponseDto(tokenDto.getAccessToken(), tokenDto.getRefreshToken());
+        }
+        return new TokenResponseDto(jwtProvider.generateAccessToken(authentication, now), foundRefreshToken);
     }
 
     private void validateRefreshToken(TokenRequestDto tokenRequestDto) {
