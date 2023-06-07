@@ -38,7 +38,7 @@ public class Order extends EntityDateInfo {
 
     @Embedded
     private Address address;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime date; //주문시간
     @Enumerated(STRING)
     private OrderStatus orderStatus; //주문상태 [ORDER, CANCEL]

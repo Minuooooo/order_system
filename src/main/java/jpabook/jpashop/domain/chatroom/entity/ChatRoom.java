@@ -26,4 +26,8 @@ public class ChatRoom extends EntityDateInfo {
     private List<ChatMessage> chatMessages = new ArrayList<>();
 
     private String name;
+
+    public void editChatRoom(String name) {
+        this.name = name;
+    }
 }

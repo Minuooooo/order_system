@@ -25,13 +25,15 @@ public class ChatMessage {
     @Column(name = "message_id")
     private Long id;
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "member_id")
-    private Member sender;
-    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "room_id")
     private ChatRoom chatRoom;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "member_id")
+    private Member sender;
 
+    @Enumerated(EnumType.STRING)
+    private Type type;
     private String content;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime time;
 }
