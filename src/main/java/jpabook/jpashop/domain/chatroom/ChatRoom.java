@@ -25,15 +25,14 @@ public class ChatRoom extends EntityDateInfo {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "room_id")
     private Long id;
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member sender;
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member receiver;
-
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChatMessage> chatMessages = new ArrayList<>();
+
+    private String name;
 }
