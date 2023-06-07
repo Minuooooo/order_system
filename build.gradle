@@ -26,6 +26,17 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+	// websocket
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	// 낮은 브라우저에서도 websocket 지원
+	implementation 'org.webjars:sockjs-client:1.0.2'
+	// stomp
+	implementation 'org.webjars:stomp-websocket:2.3.3'
+	// 프론트 개발
+	implementation 'org.webjars:bootstrap:3.3.7'
+	implementation 'org.webjars.bower:vue:2.5.16'
+	implementation 'org.webjars.bower:axios:0.21.1'
+
 	//Swagger
 	implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
 
@@ -42,8 +53,7 @@ dependencies {
 	implementation 'org.flywaydb:flyway-core:8.5.13'
 	implementation 'org.flywaydb:flyway-mysql:8.5.13'
 
-	// websocket
-	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
 
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6'
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'
