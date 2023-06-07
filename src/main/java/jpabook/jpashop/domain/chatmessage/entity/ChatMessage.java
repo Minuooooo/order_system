@@ -1,6 +1,6 @@
-package jpabook.jpashop.domain.chatmessage;
+package jpabook.jpashop.domain.chatmessage.entity;
 
-import jpabook.jpashop.domain.chatroom.ChatRoom;
+import jpabook.jpashop.domain.chatroom.entity.ChatRoom;
 import jpabook.jpashop.domain.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

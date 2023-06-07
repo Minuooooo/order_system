@@ -1,8 +1,7 @@
 package jpabook.jpashop.domain.member.entity;
 
 import jpabook.jpashop.domain.EntityDateInfo;
-import jpabook.jpashop.domain.chatmessage.ChatMessage;
-import jpabook.jpashop.domain.chatroom.ChatRoom;
+import jpabook.jpashop.domain.chatmessage.entity.ChatMessage;
 import jpabook.jpashop.domain.order.entity.Order;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,10 +26,6 @@ public class Member extends EntityDateInfo {
     private Long id;
     @OneToMany(mappedBy = "customer", cascade = ALL, orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();
-    @OneToMany(mappedBy = "sender", cascade = ALL, orphanRemoval = true)
-    private List<ChatRoom> sentChatRooms = new ArrayList<>();
-    @OneToMany(mappedBy = "receiver", cascade = ALL, orphanRemoval = true)
-    private List<ChatRoom> receivedChatRooms = new ArrayList<>();
     @OneToMany(mappedBy = "sender", cascade = ALL, orphanRemoval = true)
     private List<ChatMessage> chatMessages = new ArrayList<>();
 
