@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class GetChatRoomInfoResponseDto {
+public class GetSimpleChatRoomInfoResponseDto {
 
     private Long id;
     private String name;
 
-    public static GetChatRoomInfoResponseDto from(ChatRoom chatRoom) {
-        return GetChatRoomInfoResponseDto.builder()
+    public static GetSimpleChatRoomInfoResponseDto from(ChatRoom chatRoom) {
+        return GetSimpleChatRoomInfoResponseDto.builder()
                 .id(chatRoom.getId())
                 .name(chatRoom.getName())
                 .build();

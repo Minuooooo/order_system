@@ -2,7 +2,7 @@ package jpabook.jpashop.domain.chatroom.service;
 
 import jpabook.jpashop.domain.chatroom.dto.CreateChatRoomRequestDto;
 import jpabook.jpashop.domain.chatroom.dto.EditChatRoomInfoResponseDto;
-import jpabook.jpashop.domain.chatroom.dto.GetChatRoomInfoResponseDto;
+import jpabook.jpashop.domain.chatroom.dto.GetSimpleChatRoomInfoResponseDto;
 import jpabook.jpashop.domain.chatroom.entity.ChatRoom;
 import jpabook.jpashop.domain.chatroom.repository.ChatRoomRepository;
 import jpabook.jpashop.exception.situation.ChatRoomNotFoundException;
@@ -26,9 +26,9 @@ public class ChatRoomService {
         chatRoomRepository.save(createChatRoomRequestDto.toEntity());
     }
 
-    public List<GetChatRoomInfoResponseDto> getChatRoomInfos() {
+    public List<GetSimpleChatRoomInfoResponseDto> getChatRoomInfos() {
         return chatRoomRepository.findAll().stream()
-                .map(GetChatRoomInfoResponseDto::from)
+                .map(GetSimpleChatRoomInfoResponseDto::from)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
