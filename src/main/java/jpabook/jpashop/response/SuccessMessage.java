@@ -26,6 +26,7 @@ public class SuccessMessage {
     public static final String SUCCESS_TO_CANCEL_ORDER_ITEM = "장바구니에 담은 물품을 취소하는데 성공했습니다.";
     public static final String SUCCESS_TO_CREATE_CHAT_ROOM = "채팅방을 생성하는데 성공했습니다.";
     public static final String SUCCESS_TO_GET_CHAT_ROOM_INFOS = "채팅방 정보를 가져오는데 성공했습니다.";
+    public static final String SUCCESS_TO_ENTER_CHAT_ROOM = "채팅방에 입장하는데 성공했습니다.";
     public static final String SUCCESS_TO_EDIT_CHAT_ROOM_INFO = "채팅방 정보를 수정하는데 성공했습니다.";
     public static final String SUCCESS_TO_DELETE_CHAT_ROOM = "채팅방을 삭제하는데 성공했습니다.";
 }
