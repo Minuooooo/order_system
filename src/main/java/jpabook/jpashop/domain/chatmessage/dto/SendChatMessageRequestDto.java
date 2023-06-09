@@ -30,6 +30,10 @@ public class SendChatMessageRequestDto {
 
     public ChatMessage toEntity(Member sender, ChatRoom chatRoom) {
 
+        if (this.content.equals("x")) {  // TODO 일단은 클라이언트에게 content 를 x 요청 받을 때 회원이 입장하는 것으로 판단
+            this.content = sender.getName() + "님이 입장하였습니다.";
+        }
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         return ChatMessage.builder()

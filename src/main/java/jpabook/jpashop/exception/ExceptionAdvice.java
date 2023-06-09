@@ -190,4 +190,12 @@ public class ExceptionAdvice {
     public Response chatRoomNotFoundException() {
         return failure(NOT_FOUND, "요청한 채팅방을 찾을 수 없습니다.");
     }
+
+    // 404 응답
+    // 요청한 채팅 메시지를 찾을 수 없음
+    @ExceptionHandler(ChatMessageNotFoundException.class)
+    @ResponseStatus(NOT_FOUND)
+    public Response chatMessageNotFoundException() {
+        return failure(NOT_FOUND, "요청한 채팅 메시지를 찾을 수 없습니다.");
+    }
 }

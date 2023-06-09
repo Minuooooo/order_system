@@ -9,6 +9,7 @@ import jpabook.jpashop.domain.member.service.MemberService;
 import jpabook.jpashop.response.Response;
 import jpabook.jpashop.response.SuccessMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,6 +22,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RequiredArgsConstructor
 @RequestMapping("/api/chat-rooms")
 @Tag(name = "ChatRoom", description = "ChatRoom API Document")
+@Slf4j
 public class ChatRoomController {  // TODO 채팅방 나가기
 
     private final ChatRoomService chatRoomService;
