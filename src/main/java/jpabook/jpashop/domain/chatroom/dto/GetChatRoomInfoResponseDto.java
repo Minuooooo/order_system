@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class GetChatMessageInfoResponseDto {
+public class GetChatRoomInfoResponseDto {
 
     private Long id;
     private String name;
@@ -23,11 +23,11 @@ public class GetChatMessageInfoResponseDto {
     private String content;
     private String time;
 
-    public static GetChatMessageInfoResponseDto from(ChatMessage chatMessage) {
+    public static GetChatRoomInfoResponseDto from(ChatMessage chatMessage) {
 
         Member sender = chatMessage.getSender();
 
-        return GetChatMessageInfoResponseDto.builder()
+        return GetChatRoomInfoResponseDto.builder()
                 .id(sender.getId())
                 .name(sender.getName())
                 .profileImageUrl(sender.getProfileImageUrl())

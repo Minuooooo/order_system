@@ -2,6 +2,7 @@ package jpabook.jpashop.domain.chatroom.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jpabook.jpashop.domain.chatmessage.service.ChatMessageService;
 import jpabook.jpashop.domain.chatroom.dto.CreateChatRoomRequestDto;
 import jpabook.jpashop.domain.chatroom.dto.EditChatRoomInfoResponseDto;
 import jpabook.jpashop.domain.chatroom.service.ChatRoomService;
@@ -27,6 +28,7 @@ public class ChatRoomController {  // TODO 채팅방 나가기
 
     private final ChatRoomService chatRoomService;
     private final MemberService memberService;
+    private final ChatMessageService chatMessageService;
 
     @Operation(summary = "Create chat room API", description = "please chat room info what you want to create")
     @ResponseStatus(OK)
@@ -41,6 +43,13 @@ public class ChatRoomController {  // TODO 채팅방 나가기
     @GetMapping("/simple")
     public Response getChatRoomInfos() {
         return success(SUCCESS_TO_GET_CHAT_ROOM_INFOS, chatRoomService.getChatRoomInfos());
+    }
+
+    @Operation(summary = "Get chat room info API", description = "please chat room id what you want to see")
+    @ResponseStatus(OK)
+    @GetMapping("/details")
+    public Response getChatRoomInfo(Long chatRoomId) {
+        return success(SUCCESS_TO_GET_CHAT_ROOM_INFO, chatRoomService.getChatRoomInfo(chatMessageService.getChatMessageInfos(chatRoomService.getChatRoom(chatRoomId))));
     }
 
     @Operation(summary = "Enter chat room API", description = "please chat room id what you want to enter")

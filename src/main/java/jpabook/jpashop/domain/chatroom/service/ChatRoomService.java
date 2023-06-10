@@ -1,7 +1,9 @@
 package jpabook.jpashop.domain.chatroom.service;
 
+import jpabook.jpashop.domain.chatmessage.entity.ChatMessage;
 import jpabook.jpashop.domain.chatroom.dto.CreateChatRoomRequestDto;
 import jpabook.jpashop.domain.chatroom.dto.EditChatRoomInfoResponseDto;
+import jpabook.jpashop.domain.chatroom.dto.GetChatRoomInfoResponseDto;
 import jpabook.jpashop.domain.chatroom.dto.GetSimpleChatRoomInfoResponseDto;
 import jpabook.jpashop.domain.chatroom.entity.ChatRoom;
 import jpabook.jpashop.domain.chatroom.repository.ChatRoomRepository;
@@ -29,6 +31,13 @@ public class ChatRoomService {
     public List<GetSimpleChatRoomInfoResponseDto> getChatRoomInfos() {
         return chatRoomRepository.findAll().stream()
                 .map(GetSimpleChatRoomInfoResponseDto::from)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+    }
+
+    public List<GetChatRoomInfoResponseDto> getChatRoomInfo(List<ChatMessage> chatMessages) {
+        return chatMessages.stream()
+                .map(GetChatRoomInfoResponseDto::from)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
