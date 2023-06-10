@@ -13,6 +13,12 @@ spring:
   flyway:
     enabled: false  # 엔티티와 flyway 에서 생성하는 테이블이 같아 aal-auto: create-drop 으로 인해 데이터 삽입 불가능
 
+#  flyway:
+#    locations: classpath:/db/migration  # 마이그레이션 스크립트 위치
+#    encoding: UTF-8  # 마이그레이션 스크립트 인코딩
+#    check-location: false  # 마이그레이션 스크립트 실행 전 체크 여부
+#    baseline-on-migration: true  # 스키마 초기화 여부
+
   sql:
     init:
       mode: always
