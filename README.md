@@ -10,6 +10,7 @@
 - JPA
 - Spring Security
 - JWT
+- STOMP
 - MySQL Driver
 - Validation
 - Swagger
@@ -33,3 +34,5 @@
 - Order: 주문 관련 CRUD
 - OrderItem: 주문한 상품 관련 CRUD
 - Item: 모든 상품 조회
+- chatRoom: 채팅방 관련 CRUD
+- chatMessage: STOMP를 이용한 채팅
