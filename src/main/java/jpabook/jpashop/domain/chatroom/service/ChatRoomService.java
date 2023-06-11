@@ -1,12 +1,10 @@
 package jpabook.jpashop.domain.chatroom.service;
 
 import jpabook.jpashop.domain.chatmessage.entity.ChatMessage;
-import jpabook.jpashop.domain.chatroom.dto.CreateChatRoomRequestDto;
-import jpabook.jpashop.domain.chatroom.dto.EditChatRoomInfoResponseDto;
-import jpabook.jpashop.domain.chatroom.dto.GetChatRoomInfoResponseDto;
-import jpabook.jpashop.domain.chatroom.dto.GetSimpleChatRoomInfoResponseDto;
+import jpabook.jpashop.domain.chatroom.dto.*;
 import jpabook.jpashop.domain.chatroom.entity.ChatRoom;
 import jpabook.jpashop.domain.chatroom.repository.ChatRoomRepository;
+import jpabook.jpashop.domain.member.entity.Member;
 import jpabook.jpashop.exception.situation.ChatRoomNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +38,10 @@ public class ChatRoomService {
                 .map(GetChatRoomInfoResponseDto::from)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
+    }
+
+    public GetEnteredMemberInfoResponseDto enterChatRoom(Member enteredMember) {
+        return GetEnteredMemberInfoResponseDto.from(enteredMember);
     }
 
     @Transactional

@@ -31,8 +31,6 @@ public class ChatMessage {
     @JoinColumn(name = "member_id")
     private Member sender;
 
-    @Enumerated(EnumType.STRING)
-    private Type type;
     private String content;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime time;

@@ -6,6 +6,7 @@ import jpabook.jpashop.domain.chatmessage.service.ChatMessageService;
 import jpabook.jpashop.domain.chatroom.dto.CreateChatRoomRequestDto;
 import jpabook.jpashop.domain.chatroom.dto.EditChatRoomInfoResponseDto;
 import jpabook.jpashop.domain.chatroom.service.ChatRoomService;
+import jpabook.jpashop.domain.member.entity.Member;
 import jpabook.jpashop.domain.member.service.MemberService;
 import jpabook.jpashop.response.Response;
 import jpabook.jpashop.response.SuccessMessage;
@@ -55,8 +56,9 @@ public class ChatRoomController {  // TODO 채팅방 나가기
     @Operation(summary = "Enter chat room API", description = "please chat room id what you want to enter")
     @ResponseStatus(OK)
     @GetMapping()
-    public Response enterChatRoom(Long chatRoomId) {  // TODO chatRoomId 활용
-        return success(memberService.getCurrentMember().getName() + "님이 " + chatRoomId + "번 " + SUCCESS_TO_ENTER_CHAT_ROOM);
+    public Response enterChatRoom() {  // 클라이언트는 enterChatRoom, getChatRoomInfo API 동시 요청
+        Member enteredMember = memberService.getCurrentMember();
+        return success(enteredMember.getName() + "님이 " + SUCCESS_TO_ENTER_CHAT_ROOM, chatRoomService.enterChatRoom(enteredMember));
     }
 
     @Operation(summary = "Edit chat room info API", description = "please chat room info and id what you want to edit")

@@ -2,7 +2,6 @@ package jpabook.jpashop.domain.chatmessage.service;
 
 import jpabook.jpashop.domain.chatmessage.dto.SendChatMessageRequestDto;
 import jpabook.jpashop.domain.chatmessage.entity.ChatMessage;
-import jpabook.jpashop.domain.chatmessage.entity.Type;
 import jpabook.jpashop.domain.chatmessage.repository.ChatMessageRepository;
 import jpabook.jpashop.domain.chatroom.entity.ChatRoom;
 import jpabook.jpashop.domain.member.entity.Member;
