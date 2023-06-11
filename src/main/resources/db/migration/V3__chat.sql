@@ -10,7 +10,6 @@ create table chat_message (
                               message_id bigint not null auto_increment,
                               content varchar(255),
                               time datetime(6),
-                              type varchar(255),
                               room_id bigint,
                               member_id bigint,
                               primary key (message_id)

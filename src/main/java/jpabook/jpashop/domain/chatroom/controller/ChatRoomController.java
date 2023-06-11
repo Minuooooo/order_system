@@ -9,7 +9,6 @@ import jpabook.jpashop.domain.chatroom.service.ChatRoomService;
 import jpabook.jpashop.domain.member.entity.Member;
 import jpabook.jpashop.domain.member.service.MemberService;
 import jpabook.jpashop.response.Response;
-import jpabook.jpashop.response.SuccessMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -50,7 +49,14 @@ public class ChatRoomController {  // TODO 채팅방 나가기
     @ResponseStatus(OK)
     @GetMapping("/details")
     public Response getChatRoomInfo(Long chatRoomId) {
-        return success(SUCCESS_TO_GET_CHAT_ROOM_INFO, chatRoomService.getChatRoomInfo(chatMessageService.getChatMessageInfos(chatRoomService.getChatRoom(chatRoomId))));
+        return success(SUCCESS_TO_GET_CHAT_ROOM_INFO, chatRoomService.getChatRoomInfo(chatRoomId));
+    }
+
+    @Operation(summary = "Get chat message infos API", description = "please chat room id what you want to see")
+    @ResponseStatus(OK)
+    @GetMapping("/messages")
+    public Response getChatMessageInfos(Long chatRoomId) {
+        return success(SUCCESS_TO_GET_CHAT_ROOM_MESSAGE_INFOS, chatRoomService.getChatMessageInfos(chatMessageService.getChatMessages(chatRoomService.getChatRoom(chatRoomId))));
     }
 
     @Operation(summary = "Enter chat room API", description = "please chat room id what you want to enter")

@@ -1,14 +1,11 @@
 package jpabook.jpashop.domain.chatroom.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jpabook.jpashop.domain.chatmessage.entity.ChatMessage;
-import jpabook.jpashop.domain.member.entity.Member;
+import jpabook.jpashop.domain.chatroom.entity.ChatRoom;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.format.DateTimeFormatter;
 
 @Data
 @AllArgsConstructor
@@ -16,23 +13,11 @@ import java.time.format.DateTimeFormatter;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class GetChatRoomInfoResponseDto {
-
-    private Long id;
     private String name;
-    private String profileImageUrl;
-    private String content;
-    private String time;
 
-    public static GetChatRoomInfoResponseDto from(ChatMessage chatMessage) {
-
-        Member sender = chatMessage.getSender();
-
+    public static GetChatRoomInfoResponseDto from(ChatRoom chatRoom) {
         return GetChatRoomInfoResponseDto.builder()
-                .id(sender.getId())
-                .name(sender.getName())
-                .profileImageUrl(sender.getProfileImageUrl())
-                .content(chatMessage.getContent())
-                .time(chatMessage.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
+                .name(chatRoom.getName())
                 .build();
     }
 }

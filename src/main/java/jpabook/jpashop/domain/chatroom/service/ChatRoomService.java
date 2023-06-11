@@ -1,5 +1,6 @@
 package jpabook.jpashop.domain.chatroom.service;
 
+import jpabook.jpashop.domain.chatroom.dto.GetChatMessageInfoResponseDto;
 import jpabook.jpashop.domain.chatmessage.entity.ChatMessage;
 import jpabook.jpashop.domain.chatroom.dto.*;
 import jpabook.jpashop.domain.chatroom.entity.ChatRoom;
@@ -33,9 +34,13 @@ public class ChatRoomService {
                 .collect(Collectors.toList());
     }
 
-    public List<GetChatRoomInfoResponseDto> getChatRoomInfo(List<ChatMessage> chatMessages) {
+    public GetChatRoomInfoResponseDto getChatRoomInfo(Long chatRoomId) {
+        return GetChatRoomInfoResponseDto.from(getChatRoom(chatRoomId));
+    }
+
+    public List<GetChatMessageInfoResponseDto> getChatMessageInfos(List<ChatMessage> chatMessages) {  // 채팅방 메시지 목록
         return chatMessages.stream()
-                .map(GetChatRoomInfoResponseDto::from)
+                .map(GetChatMessageInfoResponseDto::from)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
