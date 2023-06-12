@@ -21,10 +21,13 @@ public class NotificationService {
     private final SimpMessageSendingOperations simpMessageSendingOperations;
 
     public void notify(NotifyRequestDto notifyRequestDto, Member receiver, Member sender) {
+
         Notification sentNotification = notifyRequestDto.toEntity(receiver, sender);
+
         simpMessageSendingOperations.convertAndSend("/sub/favorite/" + receiver.getId(),
                 ReceiveNotificationInfoResponseDto.from(sentNotification, sender.getName(), notifyRequestDto.getCategory())
         );
+
         notificationRepository.save(sentNotification);
     }
 

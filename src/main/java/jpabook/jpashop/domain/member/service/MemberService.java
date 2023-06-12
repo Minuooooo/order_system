@@ -29,6 +29,10 @@ public class MemberService {
                 .orElseThrow(MemberNotFoundException::new);
     }
 
+    public Member getMember(Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
+    }
+
     public MemberInfoResponseDto getMemberInfo() {
         return MemberInfoResponseDto.from(getCurrentMember());
     }
