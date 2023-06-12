@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -19,13 +20,16 @@ import java.time.format.DateTimeFormatter;
 @Builder
 public class SendChatMessageRequestDto {
 
+    @NotNull(message = "채팅방 id를 입력해주세요")
+    @Schema(description = "채팅방 id")
+    private Long id;
     @NotBlank(message = "메시지 내용을 입력해주세요")
     @Schema(description = "메시지 내용")
     private String content;
 
     public ChatMessage toEntity(Member sender, ChatRoom chatRoom) {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
         return ChatMessage.builder()
                 .sender(sender)

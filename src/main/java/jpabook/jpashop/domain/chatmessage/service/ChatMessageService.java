@@ -1,6 +1,6 @@
 package jpabook.jpashop.domain.chatmessage.service;
 
-import jpabook.jpashop.domain.chatmessage.dto.GetSentMessageInfoResponseDto;
+import jpabook.jpashop.domain.chatmessage.dto.ReceiveChatMessageInfoResponseDto;
 import jpabook.jpashop.domain.chatmessage.dto.SendChatMessageRequestDto;
 import jpabook.jpashop.domain.chatmessage.entity.ChatMessage;
 import jpabook.jpashop.domain.chatmessage.repository.ChatMessageRepository;
@@ -24,7 +24,7 @@ public class ChatMessageService {
 
     public void sendChatMessage(SendChatMessageRequestDto sendChatMessageRequestDto, Member sender, ChatRoom chatRoom) {
         ChatMessage sentChatMessage = sendChatMessageRequestDto.toEntity(sender, chatRoom);
-        simpMessageSendingOperations.convertAndSend("/sub/chat-rooms/" + chatRoom.getId(), GetSentMessageInfoResponseDto.from(sentChatMessage));
+        simpMessageSendingOperations.convertAndSend("/sub/chat-rooms/" + chatRoom.getId(), ReceiveChatMessageInfoResponseDto.from(sentChatMessage));
         chatMessageRepository.save(sentChatMessage);
     }
 

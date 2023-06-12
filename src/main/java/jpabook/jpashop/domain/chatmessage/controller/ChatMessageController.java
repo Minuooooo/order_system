@@ -30,8 +30,8 @@ public class ChatMessageController {
 
     @ResponseStatus(OK)
     @MessageMapping("/chat-messages")
-    public Response sendChatMessage(@Valid @RequestBody SendChatMessageRequestDto sendChatMessageRequestDto, Long chatRoomId) {
-        chatMessageService.sendChatMessage(sendChatMessageRequestDto, memberService.getCurrentMember(), chatRoomService.getChatRoom(chatRoomId));
+    public Response sendChatMessage(@Valid @RequestBody SendChatMessageRequestDto sendChatMessageRequestDto) {
+        chatMessageService.sendChatMessage(sendChatMessageRequestDto, memberService.getCurrentMember(), chatRoomService.getChatRoom(sendChatMessageRequestDto.getId()));
         return success(SUCCESS_TO_SEND_CHAT_MESSAGE);
     }
 

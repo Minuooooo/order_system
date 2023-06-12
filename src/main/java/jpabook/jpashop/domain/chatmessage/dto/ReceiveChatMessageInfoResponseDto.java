@@ -14,14 +14,14 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class GetSentMessageInfoResponseDto {
+public class ReceiveChatMessageInfoResponseDto {
 
     private Long id;
     private String content;
     private String time;
 
-    public static GetSentMessageInfoResponseDto from(ChatMessage sentChatMessage) {
-        return GetSentMessageInfoResponseDto.builder()
+    public static ReceiveChatMessageInfoResponseDto from(ChatMessage sentChatMessage) {
+        return ReceiveChatMessageInfoResponseDto.builder()
                 .id(sentChatMessage.getId())
                 .content(sentChatMessage.getContent())
                 .time(sentChatMessage.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
