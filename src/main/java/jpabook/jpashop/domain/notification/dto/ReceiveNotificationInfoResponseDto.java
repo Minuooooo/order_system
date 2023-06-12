@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 @Data
@@ -22,12 +23,14 @@ public class ReceiveNotificationInfoResponseDto {
     private String category;
     private String senderName;
     private String content;
+    private String date;
 
-    public ReceiveNotificationInfoResponseDto from(Notification sentNotification, Member sender, String name) {
+    public static ReceiveNotificationInfoResponseDto from(Notification sentNotification, String senderName, String name) {  // sender 필드가 하나만 쓰이므로 파라미터로 바로 이름을 받음
         return ReceiveNotificationInfoResponseDto.builder()
                 .category(Objects.requireNonNull(Category.nameOf(name)).getName())
-                .senderName(sender.getName())
+                .senderName(senderName)
                 .content(sentNotification.getContent())
+                .date(sentNotification.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                 .build();
     }
 }

@@ -21,9 +21,9 @@ import java.time.format.DateTimeFormatter;
 @Builder
 public class NotifyRequestDto {
 
-    @NotNull(message = "알림을 보낼 회원의 id를 입력해주세요.")
-    @Schema(description = "알림을 보내는 회원 id")
-    private Long id;
+    @NotNull(message = "알림을 받는 회원의 id를 입력해주세요.")
+    @Schema(description = "알림을 받는 회원 id")
+    private Long receiverId;
     @NotBlank(message = "알림 카테고리를 입력해주세요.")
     @Schema(description = "알림 카테고리", defaultValue = "좋아요")
     private String category;
