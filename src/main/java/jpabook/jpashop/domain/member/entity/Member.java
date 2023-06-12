@@ -35,6 +35,7 @@ public class Member extends EntityDateInfo {
     @Embedded
     private Address address;
     private String profileImageUrl;
+    private int favorite;
     @Enumerated(EnumType.STRING)
     private Authority authority;
 

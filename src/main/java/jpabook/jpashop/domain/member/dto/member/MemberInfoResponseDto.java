@@ -19,6 +19,7 @@ public class MemberInfoResponseDto {
     private String name;
     private Address address;
     private String profileImageUrl;
+    private int favorite;
 
     public static MemberInfoResponseDto from(Member member) {
         return MemberInfoResponseDto.builder()
@@ -26,6 +27,7 @@ public class MemberInfoResponseDto {
                 .name(member.getName())
                 .address(member.getAddress())
                 .profileImageUrl(member.getProfileImageUrl())
+                .favorite(member.getFavorite())
                 .build();
     }
 }

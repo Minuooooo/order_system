@@ -56,6 +56,7 @@ public class SignUpRequestDto {
                 .name(this.getName())
                 .address(Address.getAddress(this.city, this.street, this.zipcode))
                 .profileImageUrl("basic_profile.png")  // TODO S3에 이미지 저장 후, 확장자 추가 (EX. basic_profile.png)
+                .favorite(0)
                 .authority(Authority.ROLE_USER)
                 .build();
     }

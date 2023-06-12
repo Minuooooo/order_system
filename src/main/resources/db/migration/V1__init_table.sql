@@ -10,6 +10,7 @@ CREATE TABLE member (
                         password VARCHAR(255),
                         profile_image_url VARCHAR(255),
                         username VARCHAR(255),
+                        favorite INTEGER NOT NULL,
                         PRIMARY KEY (member_id)
 ) engine=InnoDB;
 
