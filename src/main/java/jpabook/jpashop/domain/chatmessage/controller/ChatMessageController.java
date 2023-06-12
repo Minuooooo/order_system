@@ -30,7 +30,7 @@ public class ChatMessageController {
 
     @ResponseStatus(OK)
     @MessageMapping("/chat-messages")
-    public Response sendChatMessage(@Valid @RequestBody SendChatMessageRequestDto sendChatMessageRequestDto) {
+    public Response sendChatMessage(@Valid @RequestBody SendChatMessageRequestDto sendChatMessageRequestDto) {  // 쿼리 파라미터 사용 불가능
         chatMessageService.sendChatMessage(sendChatMessageRequestDto, memberService.getCurrentMember(), chatRoomService.getChatRoom(sendChatMessageRequestDto.getId()));
         return success(SUCCESS_TO_SEND_CHAT_MESSAGE);
     }
