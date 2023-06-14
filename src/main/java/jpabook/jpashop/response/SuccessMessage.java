@@ -34,4 +34,5 @@ public class SuccessMessage {
     public static final String SUCCESS_TO_SEND_CHAT_MESSAGE = "채팅 메시지를 전송하는데 성공했습니다.";
     public static final String SUCCESS_TO_DELETE_CHAT_MESSAGE = "채팅 메시지를 삭제하는데 성공했습니다.";
     public static final String SUCCESS_TO_NOTIFY = "알림을 전송하는데 성공했습니다.";
+    public static final String SUCCESS_TO_GET_NOTIFICATION_INFOS = "알림 목록을 가져오는데 성공했습니다.";
 }

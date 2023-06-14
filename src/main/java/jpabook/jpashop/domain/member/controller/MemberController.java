@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jpabook.jpashop.domain.member.dto.member.EditMemberInfoRequestDto;
 import jpabook.jpashop.domain.member.service.MemberService;
+import jpabook.jpashop.domain.notification.service.NotificationService;
 import jpabook.jpashop.response.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 public class MemberController {
 
     private final MemberService memberService;
+    private final NotificationService notificationService;
 
     @Operation(summary = "Get member info API", description = "this is info what you want to see")
     @ResponseStatus(OK)
@@ -63,5 +65,14 @@ public class MemberController {
     public Response changeLogoImageToBasic() {
         memberService.changeProfileImageToBasic();
         return success(SUCCESS_TO_CHANGE_MEMBER_PROFILE_IMAGE);
+    }
+
+    @Operation(summary = "Get notification infos API", description = "this is to get notification infos")
+    @ResponseStatus(OK)
+    @PostMapping("/notifications")
+    public Response getNotificationInfos() {
+        return success(SUCCESS_TO_GET_NOTIFICATION_INFOS,
+                memberService.getNotificationInfos(notificationService.getNotifications(memberService.getCurrentMember()))
+        );
     }
 }
