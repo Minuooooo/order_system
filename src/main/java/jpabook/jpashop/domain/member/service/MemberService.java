@@ -3,10 +3,12 @@ package jpabook.jpashop.domain.member.service;
 import jpabook.jpashop.config.aws.AmazonS3Service;
 import jpabook.jpashop.config.redis.RedisService;
 import jpabook.jpashop.domain.member.dto.member.EditMemberInfoRequestDto;
+import jpabook.jpashop.domain.member.dto.member.GetNotificationInfoResponseDto;
 import jpabook.jpashop.domain.member.dto.member.MemberInfoResponseDto;
 import jpabook.jpashop.domain.member.entity.Address;
 import jpabook.jpashop.domain.member.entity.Member;
 import jpabook.jpashop.domain.member.repository.MemberRepository;
+import jpabook.jpashop.domain.notification.entity.Notification;
 import jpabook.jpashop.exception.situation.AlreadyBasicException;
 import jpabook.jpashop.exception.situation.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -72,6 +78,13 @@ public class MemberService {
         // TODO S3에 이미지 저장 후, 확장자 추가 (EX. basic_profile.png)
         currentMember.changeProfileImageUrl("basic_profile.png");
         amazonS3Service.deleteFile(deleteProfileImageUrl);
+    }
+
+    public List<GetNotificationInfoResponseDto> getNotificationInfos(List<Notification> notifications) {
+        return notifications.stream()
+                .map(GetNotificationInfoResponseDto::from)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
     private void deleteProfileImageIfExists(Member memberToCheck) {

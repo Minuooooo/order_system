@@ -31,7 +31,7 @@ public class NotificationService {
         notificationRepository.save(sentNotification);
     }
 
-    public List<Notification> getNotificationInfos() {
-        return notificationRepository.findAll();
+    public List<Notification> getNotificationInfos(Member receiver) {
+        return notificationRepository.findNotificationsByReceiver(receiver);
     }
 }
