@@ -36,3 +36,4 @@
 - Item: 모든 상품 조회
 - ChatRoom: 채팅방 관련 CRUD
 - ChatMessage: STOMP를 이용한 채팅
+- Notification: STOMP를 이용한 알림
