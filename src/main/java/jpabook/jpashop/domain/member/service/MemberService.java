@@ -4,7 +4,7 @@ import jpabook.jpashop.config.aws.AmazonS3Service;
 import jpabook.jpashop.config.redis.RedisService;
 import jpabook.jpashop.domain.member.dto.member.EditMemberInfoRequestDto;
 import jpabook.jpashop.domain.member.dto.member.GetNotificationInfoResponseDto;
-import jpabook.jpashop.domain.member.dto.member.MemberInfoResponseDto;
+import jpabook.jpashop.domain.member.dto.member.GetMemberInfoResponseDto;
 import jpabook.jpashop.domain.member.entity.Address;
 import jpabook.jpashop.domain.member.entity.Member;
 import jpabook.jpashop.domain.member.repository.MemberRepository;
@@ -12,7 +12,6 @@ import jpabook.jpashop.domain.notification.entity.Notification;
 import jpabook.jpashop.exception.situation.AlreadyBasicException;
 import jpabook.jpashop.exception.situation.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,8 +38,8 @@ public class MemberService {
         return memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
     }
 
-    public MemberInfoResponseDto getMemberInfo() {
-        return MemberInfoResponseDto.from(getCurrentMember());
+    public GetMemberInfoResponseDto getMemberInfo() {
+        return GetMemberInfoResponseDto.from(getCurrentMember());
     }
 
     @Transactional

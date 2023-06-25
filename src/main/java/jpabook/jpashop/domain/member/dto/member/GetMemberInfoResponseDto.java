@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class MemberInfoResponseDto {
+public class GetMemberInfoResponseDto {
 
     private String username;
     private String name;
@@ -21,8 +21,8 @@ public class MemberInfoResponseDto {
     private String profileImageUrl;
     private int favorite;
 
-    public static MemberInfoResponseDto from(Member member) {
-        return MemberInfoResponseDto.builder()
+    public static GetMemberInfoResponseDto from(Member member) {
+        return GetMemberInfoResponseDto.builder()
                 .username(member.getUsername())
                 .name(member.getName())
                 .address(member.getAddress())
