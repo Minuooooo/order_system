@@ -5,6 +5,7 @@ import jpabook.jpashop.config.oauth.common.OAuthInfoResponse;
 import jpabook.jpashop.config.oauth.common.OAuthLoginParams;
 import jpabook.jpashop.config.oauth.common.OAuthProvider;
 import jpabook.jpashop.config.oauth.dto.KakaoTokens;
+import jpabook.jpashop.config.oauth.dto.NaverTokens;
 import jpabook.jpashop.config.oauth.info.NaverInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -54,7 +55,7 @@ public class NaverApiClient implements OAuthApiClient {
 
         HttpEntity<?> request = new HttpEntity<>(body, httpHeaders);
 
-        KakaoTokens response = restTemplate.postForObject(url, request, KakaoTokens.class);
+        NaverTokens response = restTemplate.postForObject(url, request, NaverTokens.class);
 
         assert response != null;
         return response.getAccessToken();
