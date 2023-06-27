@@ -1,9 +1,6 @@
 package jpabook.jpashop.config.security;
 
-import jpabook.jpashop.config.jwt.JwtAccessDeniedHandler;
-import jpabook.jpashop.config.jwt.JwtAuthenticationEntryPoint;
-import jpabook.jpashop.config.jwt.JwtProvider;
-import jpabook.jpashop.config.jwt.JwtSecurityConfig;
+import jpabook.jpashop.config.jwt.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -54,9 +51,8 @@ public class SecurityConfig {
                 .accessDeniedHandler(jwtAccessDeniedHandler)
 
                 .and()
-                .apply(new JwtSecurityConfig(jwtProvider))
+                .addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
 
-                .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
@@ -69,6 +65,7 @@ public class SecurityConfig {
                         .authenticated()
                         .and()
                 )
+
                 .build();
     }
 }
